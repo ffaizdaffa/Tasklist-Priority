@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Antarestar · Commissioner Assignments</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #07090E; color: #E2E8F0; font-family: 'DM Sans', sans-serif; }
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-thumb { background: #1E2A3A; border-radius: 2px; }
+    .hover-card { transition: border-color 0.15s, transform 0.15s; }
+    .hover-card:hover { border-color: rgba(255,255,255,0.08) !important; transform: translateY(-1px); }
+    .chip { cursor: pointer; transition: all 0.12s; user-select: none; border: none; font-family: 'DM Sans', sans-serif; }
+    .chip:hover { opacity: 0.8; }
+    input { outline: none; font-family: 'DM Sans', sans-serif; }
+    input::placeholder { color: #2D3748; }
+    .sub-item { animation: fadeIn 0.15s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+    button { font-family: 'DM Sans', sans-serif; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useMemo, useEffect } = React;
+
+    const SECTIONS = [
+      {
+        num: 1, label: "R&D", color: "#A78BFA",
+        items: [
+          { id: "1.1", text: "Jaket-jaketan masuk pipeline RnD sebagai GMV driver", pic: "Kepala R&D / Mang Ipan", priority: "Urgent", sub: [] },
+          { id: "1.2", text: "New Hero SKU pengganti Handwarmer", pic: "Product Team", priority: "Short Term", sub: [] },
+          { id: "1.3", text: "Analisa trend produk 2027", pic: "Product + Marketing", priority: "Long Term", sub: [] },
+          { id: "1.4", text: "Dokumentasi & monitoring flow RnD termasuk sample", pic: "Kepala R&D", priority: "Short Term", sub: [] },
+          { id: "1.5", text: "Bikin matrix pain point & solusi divisi R&D", pic: "CEO + R&D", priority: "Short Term", sub: [] },
+        ]
+      },
+      {
+        num: 2, label: "Sales", color: "#38BDF8",
+        items: [
+          { id: "2.1", text: "Identifikasi produk di matrix kanan atas (High ROAS, Profit, Conversion) → siapkan untuk boost", pic: "Marketplace + Data", priority: "Urgent", sub: ["High profit (%) jadi target utama"] },
+          { id: "2.2", text: "Alokasi budget Rp200jt untuk naikkan orderan dalam 3 hari — menyasar produk high profit", pic: "CMO / CEO", priority: "Urgent", sub: [] },
+          { id: "2.3", text: "Bawa produk ke komunitas affiliator — jaga hubungan baik & emosional", pic: "Fikri + Saleh", priority: "Urgent", sub: ["Fikri & Saleh → jaga hubungan", "Digicomm → jelasin sistem", "Ken (R&D) → jelasin produk"] },
+          { id: "2.4", text: "Coaching Mas Maki untuk semangat tim live streaming", pic: "Faiz (CEO)", priority: "Urgent", sub: [] },
+          { id: "2.5", text: "Aktifkan B2B + networking", pic: "Asri", priority: "Short Term", sub: [] },
+          { id: "2.6", text: "Maksimalkan offline store Semarang (SMG)", pic: "Sales / B2B Team", priority: "Short Term", sub: [] },
+          { id: "2.7", text: "Bikin matrix pain point & solusi divisi Sales", pic: "Sales Lead", priority: "Short Term", sub: [] },
+        ]
+      },
+      {
+        num: 3, label: "Marketing", color: "#34D399",
+        items: [
+          { id: "3.1", text: "Press Release untuk marketing via media berita / news", pic: "Marketing Team", priority: "Short Term", sub: [] },
+          { id: "3.2", text: "Konten AI tentang outfit pendaki pemula — feed ke platform", pic: "Faiz + Husein (AI Training)", priority: "Short Term", sub: [] },
+          { id: "3.3", text: "Gerakkan karyawan untuk engage dengan konten brand (internal buzzer)", pic: "HR + Marketing", priority: "Short Term", sub: [] },
+          { id: "3.4", text: "Aktifkan YouTube Ads kembali", pic: "Saleh", priority: "Short Term", sub: [] },
+          { id: "3.5", text: "Promosikan offline store SMG via digital", pic: "Marketing", priority: "Short Term", sub: [] },
+          { id: "3.6", text: "New activation revenue stream — berbayar (syarat beli produk)", pic: "Marketing + Ops", priority: "Short Term", sub: ["Workshop Affiliator", "Workshop Bisnis Online"] },
+          { id: "3.7", text: "Create pitch deck untuk investor", pic: "Fikri", priority: "Short Term", sub: [] },
+          { id: "3.8", text: "Engage dengan community", pic: "Marketing / B2B", priority: "Long Term", sub: [] },
+          { id: "3.9", text: "Bikin matrix pain point & solusi divisi Marketing", pic: "Marketing Lead", priority: "Short Term", sub: [] },
+          { id: "3.10", text: "Strategy brand positioning & brand guideline", pic: "NPW (Kak Nabs)", priority: "Long Term", sub: [] },
+        ]
+      },
+      {
+        num: 4, label: "HRD", color: "#FBBF24",
+        items: [
+          { id: "4.1", text: "Perjelas flow business process seluruh divisi", pic: "CEO + HRD", priority: "Urgent", sub: [] },
+          { id: "4.2", text: "Review & susun struktur organisasi yang ramping", pic: "CEO + Pak Dedi", priority: "Urgent", sub: [] },
+          { id: "4.3", text: "Bikin matrix pain point & solusi seluruh divisi", pic: "CEO + Semua Kepala Divisi", priority: "Urgent", sub: [] },
+          { id: "4.4", text: "Internalisasi Core Values — prioritas Teamwork & Komunikasi", pic: "HRD / Pak Dedi", priority: "Short Term", sub: ["! Teamwork", "! Komunikasi"] },
+          { id: "4.5", text: "Training plan — fokus manager level dulu (IDP)", pic: "HRD", priority: "Short Term", sub: [] },
+          { id: "4.6", text: "Ciptakan environment semangat belajar (IDP)", pic: "HRD", priority: "Short Term", sub: [] },
+          { id: "4.7", text: "Employee engagement (ngopi, nonton film, olahraga bareng, dll)", pic: "HRD", priority: "Short Term", sub: [] },
+          { id: "4.8", text: "Skema rewards & achievement yang lebih fair (matrix)", pic: "HR + CEO", priority: "Short Term", sub: [] },
+          { id: "4.9", text: "House rules untuk karyawan yang tinggal di mess", pic: "HRD", priority: "Urgent", sub: [] },
+          { id: "4.10", text: "Coaching Akbar — beri KPI & challenge dengan deadline jelas", pic: "NPW", priority: "Urgent", sub: ["KPI: Shopee antarestar (seller) 300jt → 700jt", "KPI: Shopee Mall antarestar 100jt → 300jt (target 1M)", "KPI: Website revamp 5jt → 50jt"] },
+          { id: "4.11", text: "SOP anti-fraud semua bagian", pic: "Ops + HR + Audit", priority: "Urgent", sub: [] },
+          { id: "4.12", text: "Pasang smart lock di office & area rawan (kamera, laptop, kas)", pic: "CEO / Pak Heri", priority: "Urgent", sub: [] },
+          { id: "4.13", text: "Siapkan & rapikan lantai 4 untuk grand opening full team", pic: "Ops / Pak Heri", priority: "Short Term", sub: [] },
+          { id: "4.14", text: "Logo Antarestar di atas gedung", pic: "Marketing + Ops", priority: "Long Term", sub: [] },
+          { id: "4.15", text: "Optimalisasi PM — buat matrix performance", pic: "Neva", priority: "Short Term", sub: [] },
+        ]
+      },
+      {
+        num: 5, label: "Operasional & Supply", color: "#F87171",
+        items: [
+          { id: "5.1", text: "Perketat akurasi inventory — belakangan mulai ngaco", pic: "Pak Heri / Warehouse", priority: "Urgent", sub: [] },
+          { id: "5.2", text: "Perjelas business process & identifikasi celah potensi fraud", pic: "Ops + Audit", priority: "Urgent", sub: ["Celah potensi fraud dimana?", "Pencegahannya dimana?"] },
+        ]
+      },
+      {
+        num: 6, label: "Purchasing", color: "#2DD4BF",
+        items: [
+          { id: "6.1", text: "Perkuat demand & supply planning — cegah pending atau overstock", pic: "Purchasing + Ops", priority: "Urgent", sub: [] },
+          { id: "6.2", text: "Segera deals garment baru untuk hero products", pic: "CEO / Procurement", priority: "Urgent", sub: ["Pastikan PPN", "TOP pembayaran", "QC standar", "Harga masih masuk"] },
+          { id: "6.3", text: "Review semua proses manual → otomasi bertahap", pic: "Tech + Ops", priority: "Long Term", sub: [] },
+        ]
+      },
+      {
+        num: 7, label: "IT & Teknologi", color: "#22D3EE",
+        items: [
+          { id: "7.1", text: "Develop IT team untuk kebutuhan tech internal", pic: "CEO / Pak Dandi (Rekrut)", priority: "Short Term", sub: [] },
+          { id: "7.2", text: "Pastikan 100% tim pakai ClickUp", pic: "PM / CEO", priority: "Urgent", sub: [] },
+          { id: "7.3", text: "Aktifkan email domain @antarestar.com — link ke ClickUp / Lark / dll", pic: "IT / PM", priority: "Urgent", sub: [] },
+          { id: "7.4", text: "Use case Openclaw → ClickUp: monitor semua tasklist via AI agent", pic: "Neva", priority: "Short Term", sub: [] },
+        ]
+      },
+    ];
+
+    const ALL_ITEMS = SECTIONS.flatMap(s => s.items.map(i => ({ ...i, section: s.label, sectionNum: s.num, sectionColor: s.color })));
+    const PRI_CONFIG = {
+      "Urgent":     { bg: "rgba(239,68,68,0.15)", text: "#FCA5A5", border: "rgba(239,68,68,0.3)" },
+      "Short Term": { bg: "rgba(251,191,36,0.15)", text: "#FDE68A", border: "rgba(251,191,36,0.3)" },
+      "Long Term":  { bg: "rgba(96,165,250,0.15)", text: "#93C5FD", border: "rgba(96,165,250,0.3)" },
+    };
+    const SECTIONS_FILTER = ["Semua", ...SECTIONS.map(s => s.label)];
+    const PRIORITIES_FILTER = ["Semua", "Urgent", "Short Term", "Long Term"];
+
+    function App() {
+      const [done, setDone] = useState(() => {
+        try { return JSON.parse(localStorage.getItem("antarestar_done") || "{}"); } catch { return {}; }
+      });
+      const [filterSec, setFilterSec] = useState("Semua");
+      const [filterPri, setFilterPri] = useState("Semua");
+      const [search, setSearch] = useState("");
+      const [expandedSubs, setExpandedSubs] = useState({});
+      const [view, setView] = useState("grid");
+
+      useEffect(() => {
+        localStorage.setItem("antarestar_done", JSON.stringify(done));
+      }, [done]);
+
+      const toggleDone = (id) => setDone(prev => ({ ...prev, [id]: !prev[id] }));
+      const toggleSub = (id) => setExpandedSubs(prev => ({ ...prev, [id]: !prev[id] }));
+
+      const filtered = useMemo(() => {
+        return ALL_ITEMS.filter(item => {
+          if (filterSec !== "Semua" && item.section !== filterSec) return false;
+          if (filterPri !== "Semua" && item.priority !== filterPri) return false;
+          if (search && !item.text.toLowerCase().includes(search.toLowerCase()) && !item.pic.toLowerCase().includes(search.toLowerCase())) return false;
+          return true;
+        });
+      }, [filterSec, filterPri, search]);
+
+      const doneCount = Object.values(done).filter(Boolean).length;
+      const totalCount = ALL_ITEMS.length;
+      const urgentLeft = ALL_ITEMS.filter(i => i.priority === "Urgent" && !done[i.id]).length;
+      const sectionColor = (name) => SECTIONS.find(s => s.label === name)?.color || "#64748B";
+
+      return (
+        <div style={{ minHeight: "100vh", background: "#07090E", color: "#E2E8F0" }}>
+          <div style={{ maxWidth: 1160, margin: "0 auto", padding: "28px 16px 60px" }}>
+
+            {/* HEADER */}
+            <div style={{ marginBottom: 32 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }}>
+                <div style={{ width: 28, height: 28, background: "rgba(249,115,22,0.15)", border: "1px solid rgba(249,115,22,0.3)", borderRadius: 6, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14 }}>📋</div>
+                <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.18em", color: "#F97316", textTransform: "uppercase" }}>Antarestar · Commissioner Assignment</span>
+              </div>
+              <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(28px,5vw,48px)", fontWeight: 800, margin: "0 0 6px", letterSpacing: "-0.03em", color: "#F8FAFC" }}>
+                Agenda Prioritas 2026
+              </h1>
+              <p style={{ color: "#475569", fontSize: 13 }}>7 divisi · {totalCount} agenda · Dari whiteboard meeting komisaris</p>
+            </div>
+
+            {/* STATS */}
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(110px, 1fr))", gap: 10, marginBottom: 24 }}>
+              {[
+                { label: "Total", value: totalCount, color: "#94A3B8", icon: "📌" },
+                { label: "Urgent Left", value: urgentLeft, color: "#FCA5A5", icon: "🔴" },
+                { label: "Done", value: doneCount, color: "#6EE7B7", icon: "✅" },
+                { label: "Divisi", value: 7, color: "#A78BFA", icon: "🏢" },
+              ].map(s => (
+                <div key={s.label} style={{ background: "#0D1117", border: "1px solid #1A2332", borderRadius: 10, padding: "12px 14px" }}>
+                  <div style={{ fontSize: 11, color: "#334155", marginBottom: 6 }}>{s.icon} {s.label}</div>
+                  <div style={{ fontSize: 30, fontWeight: 800, fontFamily: "'Space Grotesk', sans-serif", color: s.color, lineHeight: 1 }}>{s.value}</div>
+                </div>
+              ))}
+              <div style={{ background: "#0D1117", border: "1px solid #1A2332", borderRadius: 10, padding: "12px 14px", gridColumn: "span 2" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", fontSize: 11, color: "#334155", marginBottom: 8 }}>
+                  <span>📊 Overall Progress</span>
+                  <span style={{ color: "#6EE7B7", fontWeight: 700 }}>{Math.round((doneCount / totalCount) * 100)}%</span>
+                </div>
+                <div style={{ height: 6, background: "#1A2332", borderRadius: 3, overflow: "hidden" }}>
+                  <div style={{ height: "100%", width: `${(doneCount / totalCount) * 100}%`, background: "linear-gradient(90deg, #6EE7B7, #22D3EE)", borderRadius: 3, transition: "width 0.4s ease", minWidth: doneCount > 0 ? 6 : 0 }} />
+                </div>
+                <div style={{ marginTop: 10, display: "flex", gap: 8, flexWrap: "wrap" }}>
+                  {SECTIONS.map(s => {
+                    const secDone = s.items.filter(i => done[i.id]).length;
+                    return (
+                      <div key={s.num} style={{ display: "flex", alignItems: "center", gap: 4, fontSize: 10 }}>
+                        <span style={{ width: 6, height: 6, borderRadius: "50%", background: s.color, flexShrink: 0, display: "inline-block" }} />
+                        <span style={{ color: "#475569" }}>{s.label}</span>
+                        <span style={{ color: s.color, fontWeight: 700 }}>{Math.round((secDone / s.items.length) * 100)}%</span>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+
+            {/* KPI AKBAR */}
+            <div style={{ background: "rgba(251,191,36,0.05)", border: "1px solid rgba(251,191,36,0.2)", borderRadius: 12, padding: "16px 20px", marginBottom: 24 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12, flexWrap: "wrap" }}>
+                <div style={{ background: "rgba(251,191,36,0.15)", border: "1px solid rgba(251,191,36,0.3)", borderRadius: 6, padding: "3px 10px", fontSize: 11, fontWeight: 800, color: "#FDE68A", letterSpacing: "0.08em" }}>
+                  KPI AKBAR
+                </div>
+                <span style={{ fontSize: 11, color: "#475569" }}>PIC: NPW · Jika tidak ada hasil dalam deadline → cutoff</span>
+              </div>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: 10 }}>
+                {[
+                  { label: "Shopee Antarestar (# Seller)", from: "Rp300jt", to: "Rp700jt", icon: "🛍️" },
+                  { label: "Shopee Mall Antarestar", from: "Rp100jt", to: "Rp300jt", note: "→ 1M combined", icon: "🏪" },
+                  { label: "Website Revamp", from: "Rp5jt", to: "Rp50jt", icon: "💻" },
+                ].map(k => (
+                  <div key={k.label} style={{ background: "#07090E", border: "1px solid #1A2332", borderRadius: 8, padding: "10px 12px" }}>
+                    <div style={{ fontSize: 10, color: "#475569", marginBottom: 6 }}>{k.icon} {k.label}</div>
+                    <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
+                      <span style={{ fontSize: 13, color: "#64748B", fontWeight: 600 }}>{k.from}</span>
+                      <span style={{ color: "#334155" }}>→</span>
+                      <span style={{ fontSize: 13, color: "#6EE7B7", fontWeight: 700 }}>{k.to}</span>
+                      {k.note && <span style={{ fontSize: 10, color: "#FBBF24" }}>{k.note}</span>}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* FILTERS */}
+            <div style={{ marginBottom: 20 }}>
+              <div style={{ display: "flex", gap: 8, marginBottom: 12, flexWrap: "wrap", alignItems: "center" }}>
+                <div style={{ display: "flex", background: "#0D1117", border: "1px solid #1A2332", borderRadius: 8, padding: 3, gap: 3 }}>
+                  {[{ id: "grid", label: "🃏 Grid" }, { id: "section", label: "📂 Divisi" }].map(v => (
+                    <button key={v.id} className="chip" onClick={() => setView(v.id)}
+                      style={{ padding: "5px 12px", borderRadius: 6, fontSize: 11, fontWeight: 600,
+                        background: view === v.id ? "#1A2332" : "transparent",
+                        color: view === v.id ? "#E2E8F0" : "#475569" }}>
+                      {v.label}
+                    </button>
+                  ))}
+                </div>
+                {PRIORITIES_FILTER.map(p => {
+                  const active = filterPri === p;
+                  const cfg = p !== "Semua" ? PRI_CONFIG[p] : null;
+                  return (
+                    <button key={p} className="chip" onClick={() => setFilterPri(p)}
+                      style={{ padding: "5px 14px", borderRadius: 20, fontSize: 11, fontWeight: 600,
+                        border: `1px solid ${active ? (cfg?.border || "rgba(249,115,22,0.3)") : "#1A2332"}`,
+                        background: active ? (cfg?.bg || "rgba(249,115,22,0.1)") : "transparent",
+                        color: active ? (cfg?.text || "#F97316") : "#475569" }}>
+                      {p === "Urgent" ? "🔴 " : p === "Short Term" ? "🟡 " : p === "Long Term" ? "🔵 " : ""}{p}
+                    </button>
+                  );
+                })}
+              </div>
+              <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 12 }}>
+                {SECTIONS_FILTER.map(sec => {
+                  const active = filterSec === sec;
+                  const col = sec !== "Semua" ? sectionColor(sec) : "#F97316";
+                  return (
+                    <button key={sec} className="chip" onClick={() => setFilterSec(sec)}
+                      style={{ padding: "4px 12px", borderRadius: 6, fontSize: 11, fontWeight: 600,
+                        border: `1px solid ${active ? col + "50" : "#1A2332"}`,
+                        background: active ? col + "18" : "transparent",
+                        color: active ? col : "#475569",
+                        display: "flex", alignItems: "center", gap: 5 }}>
+                      {sec !== "Semua" && <span style={{ width: 5, height: 5, borderRadius: "50%", background: col, display: "inline-block" }} />}
+                      {sec === "Semua" ? "Semua Divisi" : `${SECTIONS.find(s => s.label === sec)?.num}. ${sec}`}
+                    </button>
+                  );
+                })}
+              </div>
+              <div style={{ position: "relative" }}>
+                <span style={{ position: "absolute", left: 11, top: "50%", transform: "translateY(-50%)", color: "#2D3748", fontSize: 13 }}>🔍</span>
+                <input type="text" placeholder="Cari agenda, PIC, atau keyword..." value={search} onChange={e => setSearch(e.target.value)}
+                  style={{ width: "100%", background: "#0D1117", border: "1px solid #1A2332", borderRadius: 8, padding: "9px 12px 9px 32px", color: "#E2E8F0", fontSize: 13 }} />
+                {search && <button onClick={() => setSearch("")}
+                  style={{ position: "absolute", right: 10, top: "50%", transform: "translateY(-50%)", background: "none", border: "none", color: "#475569", fontSize: 16 }}>×</button>}
+              </div>
+            </div>
+
+            <div style={{ fontSize: 12, color: "#334155", marginBottom: 14, fontWeight: 600, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+              <span>{filtered.length} agenda ditampilkan</span>
+              {doneCount > 0 && (
+                <button onClick={() => { if(confirm("Reset semua checklist?")) setDone({}); }}
+                  style={{ fontSize: 11, color: "#475569", background: "none", border: "1px solid #1A2332", borderRadius: 6, padding: "3px 10px" }}>
+                  Reset checklist
+                </button>
+              )}
+            </div>
+
+            {/* GRID VIEW */}
+            {view === "grid" && (
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 12 }}>
+                {filtered.map(item => {
+                  const priCfg = PRI_CONFIG[item.priority];
+                  const isDone = done[item.id];
+                  const hasSub = item.sub.length > 0;
+                  const isExpanded = expandedSubs[item.id];
+                  return (
+                    <div key={item.id} className="hover-card"
+                      style={{ background: isDone ? "#09090F" : "#0D1117", border: `1px solid ${isDone ? "#111827" : "#1A2332"}`,
+                        borderRadius: 12, padding: "14px 16px", position: "relative", overflow: "hidden" }}>
+                      <div style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: 3, background: item.sectionColor, opacity: isDone ? 0.2 : 0.5, borderRadius: "12px 0 0 12px" }} />
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8, paddingLeft: 4 }}>
+                        <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
+                          <span style={{ width: 5, height: 5, borderRadius: "50%", background: item.sectionColor, display: "inline-block" }} />
+                          <span style={{ fontSize: 10, color: item.sectionColor, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em" }}>
+                            {item.sectionNum}. {item.section}
+                          </span>
+                        </div>
+                        <span style={{ fontSize: 10, fontWeight: 700, padding: "2px 8px", borderRadius: 10,
+                          background: priCfg.bg, color: priCfg.text, border: `1px solid ${priCfg.border}` }}>
+                          {item.priority === "Urgent" ? "🔴" : item.priority === "Short Term" ? "🟡" : "🔵"} {item.priority}
+                        </span>
+                      </div>
+                      <div style={{ display: "flex", gap: 8, paddingLeft: 4 }}>
+                        <span style={{ fontSize: 11, color: "#1E2A3A", fontWeight: 800, flexShrink: 0, paddingTop: 2, fontFamily: "monospace" }}>#{item.id}</span>
+                        <p style={{ fontSize: 13, lineHeight: 1.55, color: isDone ? "#334155" : "#CBD5E0", margin: 0,
+                          textDecoration: isDone ? "line-through" : "none", flex: 1 }}>
+                          {item.text}
+                        </p>
+                      </div>
+                      {hasSub && (
+                        <div style={{ paddingLeft: 4, marginTop: 8 }}>
+                          <button className="chip" onClick={() => toggleSub(item.id)}
+                            style={{ fontSize: 10, color: "#475569", background: "rgba(255,255,255,0.03)", border: "1px solid #1A2332",
+                              borderRadius: 6, padding: "3px 8px", fontWeight: 600 }}>
+                            {isExpanded ? "▾" : "▸"} {item.sub.length} detail
+                          </button>
+                          {isExpanded && (
+                            <div style={{ marginTop: 6, paddingLeft: 8, borderLeft: `2px solid ${item.sectionColor}30` }}>
+                              {item.sub.map((s, i) => (
+                                <div key={i} className="sub-item" style={{ fontSize: 11, color: "#475569", paddingBottom: 4, display: "flex", gap: 5 }}>
+                                  <span style={{ color: item.sectionColor }}>·</span>{s}
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      )}
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 10, paddingLeft: 4 }}>
+                        <span style={{ fontSize: 11, color: "#334155" }}>👤 {item.pic}</span>
+                        <button onClick={() => toggleDone(item.id)}
+                          style={{ width: 24, height: 24, borderRadius: 6,
+                            border: isDone ? "1px solid rgba(52,211,153,0.4)" : "1px solid #1E2A3A",
+                            background: isDone ? "rgba(52,211,153,0.15)" : "transparent",
+                            color: isDone ? "#34D399" : "#2D3748", fontSize: 12,
+                            display: "flex", alignItems: "center", justifyContent: "center",
+                            transition: "all 0.15s", flexShrink: 0 }}>
+                          {isDone ? "✓" : "○"}
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+
+            {/* SECTION VIEW */}
+            {view === "section" && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {SECTIONS.map(sec => {
+                  const secFiltered = sec.items.filter(item => {
+                    if (filterPri !== "Semua" && item.priority !== filterPri) return false;
+                    if (search && !item.text.toLowerCase().includes(search.toLowerCase()) && !item.pic.toLowerCase().includes(search.toLowerCase())) return false;
+                    return true;
+                  });
+                  if (filterSec !== "Semua" && filterSec !== sec.label) return null;
+                  if (secFiltered.length === 0) return null;
+                  const secDone = sec.items.filter(i => done[i.id]).length;
+                  return (
+                    <div key={sec.num}>
+                      <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
+                        <div style={{ width: 28, height: 28, background: sec.color + "18", border: `1px solid ${sec.color}40`, borderRadius: 7,
+                          display: "flex", alignItems: "center", justifyContent: "center",
+                          fontFamily: "'Space Grotesk', sans-serif", fontSize: 13, fontWeight: 800, color: sec.color }}>
+                          {sec.num}
+                        </div>
+                        <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 16, fontWeight: 800, color: sec.color, margin: 0 }}>{sec.label}</h2>
+                        <div style={{ height: 1, flex: 1, background: sec.color + "20" }} />
+                        <span style={{ fontSize: 11, color: "#334155" }}>{secDone}/{sec.items.length}</span>
+                        <div style={{ width: 60, height: 4, background: "#1A2332", borderRadius: 2, overflow: "hidden" }}>
+                          <div style={{ height: "100%", width: `${(secDone / sec.items.length) * 100}%`, background: sec.color, borderRadius: 2 }} />
+                        </div>
+                      </div>
+                      <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                        {secFiltered.map(item => {
+                          const priCfg = PRI_CONFIG[item.priority];
+                          const isDone = done[item.id];
+                          const hasSub = item.sub.length > 0;
+                          const isExpanded = expandedSubs[item.id];
+                          return (
+                            <div key={item.id} className="hover-card"
+                              style={{ background: isDone ? "#09090F" : "#0D1117", border: `1px solid ${isDone ? "#111827" : "#1A2332"}`,
+                                borderRadius: 10, padding: "12px 14px", display: "flex", gap: 12, alignItems: "flex-start" }}>
+                              <div style={{ width: 2, background: sec.color, opacity: 0.4, borderRadius: 1, alignSelf: "stretch", flexShrink: 0 }} />
+                              <div style={{ flex: 1, minWidth: 0 }}>
+                                <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 6, alignItems: "center" }}>
+                                  <span style={{ fontSize: 10, fontFamily: "monospace", color: "#2D3748" }}>#{item.id}</span>
+                                  <span style={{ fontSize: 10, padding: "1px 7px", borderRadius: 10, background: priCfg.bg, color: priCfg.text, border: `1px solid ${priCfg.border}`, fontWeight: 700 }}>
+                                    {item.priority === "Urgent" ? "🔴" : item.priority === "Short Term" ? "🟡" : "🔵"} {item.priority}
+                                  </span>
+                                  <span style={{ fontSize: 11, color: "#334155" }}>👤 {item.pic}</span>
+                                </div>
+                                <p style={{ fontSize: 13, color: isDone ? "#334155" : "#CBD5E0", margin: "0 0 6px",
+                                  textDecoration: isDone ? "line-through" : "none", lineHeight: 1.5 }}>
+                                  {item.text}
+                                </p>
+                                {hasSub && (
+                                  <div>
+                                    <button className="chip" onClick={() => toggleSub(item.id)}
+                                      style={{ fontSize: 10, color: "#475569", background: "rgba(255,255,255,0.03)", border: "1px solid #1A2332",
+                                        borderRadius: 5, padding: "2px 7px", fontWeight: 600 }}>
+                                      {isExpanded ? "▾ hide" : `▸ ${item.sub.length} detail`}
+                                    </button>
+                                    {isExpanded && (
+                                      <div style={{ marginTop: 6, paddingLeft: 8, borderLeft: `2px solid ${sec.color}25` }}>
+                                        {item.sub.map((s, i) => (
+                                          <div key={i} className="sub-item" style={{ fontSize: 11, color: "#475569", paddingBottom: 3, display: "flex", gap: 5 }}>
+                                            <span style={{ color: sec.color }}>·</span>{s}
+                                          </div>
+                                        ))}
+                                      </div>
+                                    )}
+                                  </div>
+                                )}
+                              </div>
+                              <button onClick={() => toggleDone(item.id)}
+                                style={{ width: 22, height: 22, borderRadius: 6, flexShrink: 0,
+                                  border: isDone ? "1px solid rgba(52,211,153,0.4)" : "1px solid #1E2A3A",
+                                  background: isDone ? "rgba(52,211,153,0.15)" : "transparent",
+                                  color: isDone ? "#34D399" : "#2D3748", fontSize: 12,
+                                  display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                {isDone ? "✓" : "○"}
+                              </button>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+
+            {filtered.length === 0 && (
+              <div style={{ textAlign: "center", padding: "60px", color: "#334155" }}>
+                <div style={{ fontSize: 32, marginBottom: 10 }}>🔍</div>
+                <p style={{ fontSize: 14 }}>Tidak ada item yang sesuai filter.</p>
+              </div>
+            )}
+
+            <div style={{ marginTop: 48, paddingTop: 20, borderTop: "1px solid #1A2332", display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
+              <span style={{ fontSize: 11, color: "#1E2A3A", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.1em" }}>
+                Antarestar Commissioner Board · April 2026
+              </span>
+              <span style={{ fontSize: 11, color: "#1E2A3A" }}>✓ {doneCount} / {totalCount} selesai · progress tersimpan otomatis</span>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>
