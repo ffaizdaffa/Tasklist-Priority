@@ -1,0 +1,6 @@
+{
+  "redirects": [
+    { "source": "/antarestar-commissioner.html", "destination": "/", "statusCode": 308 },
+    { "source": "/README.md", "destination": "/", "statusCode": 308 }
+  ]
+}
