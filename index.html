@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+  <meta name="theme-color" content="#ec4899"/>
+  <title>Rafa Babymoon · Shanghai 20–28 Juni</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    :root{
+      --pink-50:#fff1f6; --pink-100:#ffe3ee; --pink-200:#ffc9de;
+      --pink-300:#ffa3c6; --pink-400:#ff6fa6; --pink-500:#ec4899;
+      --pink-600:#d6347f; --pink-700:#b02466;
+      --ink:#4a1733; --ink-soft:#8a4b6a; --muted:#b083a0;
+      --card:#ffffff; --bg:#fff6fa; --line:#ffd9e8;
+      --shadow:0 10px 30px -12px rgba(214,52,127,.35);
+    }
+    *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+    html,body{overscroll-behavior-y:none;}
+    body{
+      background:linear-gradient(180deg,#fff6fa 0%,#ffeaf3 100%);
+      background-attachment:fixed;
+      color:var(--ink);
+      font-family:'Plus Jakarta Sans',-apple-system,system-ui,sans-serif;
+      min-height:100vh;
+    }
+    ::selection{background:var(--pink-200);}
+    ::-webkit-scrollbar{width:0;height:0;}
+    .serif{font-family:'Fraunces',Georgia,serif;}
+    button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit;}
+    input,textarea{font-family:inherit;outline:none;}
+    .app{max-width:520px;margin:0 auto;padding:0 18px 120px;}
+    .fade{animation:fade .35s ease both;}
+    @keyframes fade{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+    .pop{animation:pop .3s cubic-bezier(.34,1.56,.64,1) both;}
+    @keyframes pop{from{opacity:0;transform:scale(.96);}to{opacity:1;transform:scale(1);}}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow);}
+    .chip{border:1px solid var(--line);background:#fff;border-radius:999px;font-weight:600;transition:all .15s;}
+    .chip:active{transform:scale(.95);}
+    .tabbtn{transition:color .2s,transform .15s;}
+    .tabbtn:active{transform:scale(.9);}
+    .check{transition:all .2s cubic-bezier(.34,1.56,.64,1);}
+    .row-done{opacity:.5;}
+    .row-done .row-text{text-decoration:line-through;text-decoration-color:var(--pink-300);}
+    .ribbon{background:linear-gradient(120deg,var(--pink-500),var(--pink-400) 60%,var(--pink-300));}
+    .glow{box-shadow:0 8px 24px -8px rgba(236,72,153,.55);}
+    .seg{background:var(--pink-100);border-radius:14px;padding:4px;display:flex;gap:3px;}
+    .seg button{flex:1;border-radius:11px;padding:9px 0;font-weight:700;font-size:12.5px;color:var(--ink-soft);transition:all .2s;}
+    .seg button.on{background:#fff;color:var(--pink-600);box-shadow:0 4px 12px -6px rgba(214,52,127,.5);}
+    .navbar{position:fixed;left:0;right:0;bottom:0;z-index:40;display:flex;justify-content:center;pointer-events:none;}
+    .navinner{pointer-events:auto;margin:0 14px 16px;max-width:520px;width:100%;background:rgba(255,255,255,.82);
+      backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--line);
+      border-radius:24px;box-shadow:0 -2px 30px -10px rgba(214,52,127,.4);display:flex;padding:8px;gap:2px;}
+    .navbtn{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 0;border-radius:16px;
+      color:var(--muted);font-size:10px;font-weight:700;transition:all .2s;}
+    .navbtn.on{color:var(--pink-600);background:var(--pink-50);}
+    .navbtn.on svg{transform:translateY(-1px) scale(1.08);}
+    .ico{width:21px;height:21px;transition:transform .2s;}
+    .progress-track{height:9px;background:var(--pink-100);border-radius:999px;overflow:hidden;}
+    .progress-fill{height:100%;background:linear-gradient(90deg,var(--pink-400),var(--pink-600));border-radius:999px;transition:width .5s cubic-bezier(.4,0,.2,1);}
+    .dot{width:9px;height:9px;border-radius:50%;}
+    .tl-line{position:absolute;left:19px;top:6px;bottom:-10px;width:2px;background:linear-gradient(var(--pink-200),transparent);}
+    .blob{position:fixed;border-radius:50%;filter:blur(60px);opacity:.5;z-index:-1;pointer-events:none;}
+    .heart-float{position:fixed;font-size:22px;pointer-events:none;z-index:60;animation:rise 1.6s ease-out forwards;}
+    @keyframes rise{0%{opacity:1;transform:translateY(0) scale(.6);}100%{opacity:0;transform:translateY(-120px) scale(1.4);}}
+    .iconbtn{width:34px;height:34px;border-radius:11px;display:flex;align-items:center;justify-content:center;background:var(--pink-50);color:var(--pink-600);}
+    .fld{width:100%;border:1px solid var(--line);border-radius:11px;padding:9px 12px;font-size:14px;color:var(--ink);background:var(--pink-50);font-weight:600;}
+    .fld::placeholder{color:var(--muted);font-weight:500;}
+    .lbl{font-size:11px;font-weight:700;color:var(--muted);margin-bottom:4px;letter-spacing:.3px;}
+    .amt{border:none;background:transparent;text-align:right;font-weight:800;font-size:14px;color:var(--pink-700);width:120px;}
+  </style>
+</head>
+<body>
+  <div class="blob" style="width:240px;height:240px;background:#ffb3d1;top:-60px;right:-60px;"></div>
+  <div class="blob" style="width:200px;height:200px;background:#ffd1e6;bottom:80px;left:-70px;"></div>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useMemo, useEffect, useRef } = React;
+
+    /* ---------- Trip meta ---------- */
+    const TRIP = {
+      title:"Rafa Babymoon", sub:"Shanghai · Business + Babymoon",
+      start:new Date(2026,5,20), end:new Date(2026,5,28),
+    };
+
+    /* ---------- Penerbangan (data asli e-ticket) ---------- */
+    const FLIGHTS = [
+      { dir:"Berangkat · Jakarta → Shanghai", airline:"Thai Airways", ref:"XTRJES", booking:"1367842106906015",
+        legs:[
+          {code:"TG436", from:"Jakarta (CGK T3)", to:"Bangkok (BKK)", dep:"20 Jun · 19:00", arr:"20 Jun · 22:30"},
+          {layover:"Transit Bangkok · 2 jam"},
+          {code:"TG662", from:"Bangkok (BKK)", to:"Shanghai (PVG T2)", dep:"21 Jun · 00:30", arr:"21 Jun · 05:45"},
+        ]},
+      { dir:"Pulang · Shanghai → Jakarta", airline:"China Southern", ref:"PXBLWT", booking:"1367842117289887",
+        legs:[
+          {code:"CZ8212", from:"Shanghai (PVG T2)", to:"Guangzhou (CAN T2)", dep:"28 Jun · 22:05", arr:"29 Jun · 00:30"},
+          {layover:"Transit Guangzhou · 7j 35m"},
+          {code:"CZ3037", from:"Guangzhou (CAN T2)", to:"Jakarta (CGK T3)", dep:"29 Jun · 08:05", arr:"29 Jun · 12:15"},
+        ]},
+    ];
+
+    /* ---------- Itinerary (per jam, disesuaikan e-ticket) ---------- */
+    const DAYS = [
+      { date:20, dow:"Sab", tag:"Terbang ke Bangkok", emoji:"✈️", type:"travel",
+        items:[
+          {t:"15:00", title:"Berangkat ke bandara CGK", note:"Bawa paspor, visa China, surat fit-to-fly", k:"d20_0"},
+          {t:"16:00", title:"Tiba CGK T3 (3 jam sebelum)", note:"Check-in Thai Airways, bagasi 23 kg/org", k:"d20_1"},
+          {t:"19:00", title:"TG436 Jakarta → Bangkok", note:"Stoking kompresi, jalan tiap jam, banyak minum", k:"d20_2"},
+          {t:"22:30", title:"Mendarat Bangkok (Suvarnabhumi)", note:"Transit 2 jam — jalan ringan, regangkan kaki", k:"d20_3"},
+        ]},
+      { date:21, dow:"Min", tag:"Tiba di Shanghai", emoji:"🛬", type:"travel",
+        items:[
+          {t:"00:30", title:"TG662 Bangkok → Shanghai", note:"Coba tidur, pakai bantal leher", k:"d21_0"},
+          {t:"05:45", title:"Mendarat Pudong (PVG T2)", note:"Imigrasi, ambil bagasi, aktifkan e-SIM", k:"d21_1"},
+          {t:"07:30", title:"Ke kota (Maglev + Metro / Didi)", note:"Kalau capek langsung Didi", k:"d21_2"},
+          {t:"09:30", title:"Sarapan + istirahat", note:"Hotel resmi check-in besok — titip bagasi / minta early check-in", k:"d21_3"},
+          {t:"15:00", title:"Jalan santai People's Square", note:"Tempo pelan, recovery dari perjalanan", k:"d21_4"},
+          {t:"19:00", title:"Dinner ringan + tidur cepat", note:"Pulihkan energi", k:"d21_5"},
+        ]},
+      { date:22, dow:"Sen", tag:"Check-in Hotel + Business", emoji:"💼", type:"work",
+        items:[
+          {t:"08:00", title:"Sarapan", note:"", k:"d22_0"},
+          {t:"09:00", title:"Meeting / urusan business", note:"Bawa laptop, charger, materi", k:"d22_1"},
+          {t:"12:30", title:"Lunch + istirahat kaki", note:"", k:"d22_2"},
+          {t:"15:00", title:"Check-in Pujing Waiting Hotel 🛎️", note:"No. 219 Xinzha Rd · Conf 1367841482179301 · PIN 8014", k:"d22_3"},
+          {t:"17:00", title:"Rebahan di zero-pressure bed 😌", note:"Kaki diangkat, manjakan badan", k:"d22_4"},
+          {t:"19:30", title:"Dinner", note:"", k:"d22_5"},
+        ]},
+      { date:23, dow:"Sel", tag:"Business Day", emoji:"💼", type:"work",
+        items:[
+          {t:"07:30", title:"Sarapan hotel (termasuk)", note:"", k:"d23_0"},
+          {t:"09:00", title:"Meeting / site visit", note:"Sepatu flat nyaman, break tiap jam", k:"d23_1"},
+          {t:"13:00", title:"Business lunch", note:"", k:"d23_2"},
+          {t:"15:30", title:"Follow-up meeting", note:"", k:"d23_3"},
+          {t:"18:00", title:"Sore di The Bund (Waitan)", note:"Skyline Pudong, jalan pelan", k:"d23_4"},
+          {t:"21:00", title:"Snack malam Pu Xiang porridge", note:"Fasilitas hotel (1/hari)", k:"d23_5"},
+        ]},
+      { date:24, dow:"Rab", tag:"Babymoon · Old Town", emoji:"💗", type:"baby",
+        items:[
+          {t:"08:00", title:"Sarapan hotel", note:"", k:"d24_0"},
+          {t:"10:00", title:"Yu Garden (Yuyuan)", note:"Taman klasik, jalan pelan & sering duduk", k:"d24_1"},
+          {t:"12:00", title:"Xiao long bao Nanxiang", note:"Pilih yang matang", k:"d24_2"},
+          {t:"14:00", title:"Tidur siang + deep soaking bathtub 🛁", note:"Manfaatkan fasilitas kamar", k:"d24_3"},
+          {t:"16:30", title:"Tianzifang / French Concession", note:"Gang seni, foto-foto", k:"d24_4"},
+          {t:"19:00", title:"Bund night lights + foto bumil", note:"Bawa cardigan, malam berangin", k:"d24_5"},
+        ]},
+      { date:25, dow:"Kam", tag:"Spa + Check-out", emoji:"💗", type:"baby",
+        items:[
+          {t:"08:00", title:"Sarapan hotel (terakhir)", note:"", k:"d25_0"},
+          {t:"10:00", title:"Prenatal spa / pijat bumil", note:"Pastikan terapis berpengalaman ibu hamil", k:"d25_1"},
+          {t:"14:00", title:"Check-out (late check-out) 🧳", note:"Reward late check-out dari booking", k:"d25_2"},
+          {t:"15:30", title:"Lanjut ke penginapan berikutnya", note:"Isi detail di tab Itinerary > Hotel", k:"d25_3"},
+          {t:"18:00", title:"Jalan santai Xintiandi", note:"", k:"d25_4"},
+          {t:"20:00", title:"Candle light dinner 💞", note:"Reservasi dulu", k:"d25_5"},
+        ]},
+      { date:26, dow:"Jum", tag:"Babymoon · Santai", emoji:"💗", type:"baby",
+        items:[
+          {t:"08:30", title:"Sarapan", note:"", k:"d26_0"},
+          {t:"09:30", title:"Day trip Zhujiajiao water town", note:"Desa air; skip kalau lelah, ganti me-time", k:"d26_1"},
+          {t:"13:00", title:"Lunch tepi kanal", note:"", k:"d26_2"},
+          {t:"15:30", title:"Balik kota, me-time", note:"", k:"d26_3"},
+          {t:"18:00", title:"Sore di Jing'an Temple", note:"", k:"d26_4"},
+          {t:"20:30", title:"Journaling — surat dedek bayi 💌", note:"Tulis perasaan & harapan", k:"d26_5"},
+        ]},
+      { date:27, dow:"Sab", tag:"Belanja & Santai", emoji:"🌸", type:"rest",
+        items:[
+          {t:"09:00", title:"Brunch malas-malasan", note:"", k:"d27_0"},
+          {t:"11:00", title:"Belanja Nanjing Road", note:"Oleh-oleh, teh, snack", k:"d27_1"},
+          {t:"13:00", title:"Lunch", note:"", k:"d27_2"},
+          {t:"15:00", title:"Me-time + spa kaki", note:"", k:"d27_3"},
+          {t:"19:00", title:"Dinner", note:"", k:"d27_4"},
+        ]},
+      { date:28, dow:"Min", tag:"Hari Terakhir + Terbang Pulang", emoji:"🏡", type:"travel",
+        items:[
+          {t:"09:00", title:"Check-out penginapan", note:"Titip bagasi, cek barang ketinggalan", k:"d28_0"},
+          {t:"11:00", title:"Jalan santai + oleh-oleh menit akhir", note:"", k:"d28_1"},
+          {t:"14:00", title:"Lunch + susun dokumen tas kabin", note:"", k:"d28_2"},
+          {t:"19:00", title:"Ke bandara PVG (3 jam sebelum)", note:"Antisipasi macet & antrean", k:"d28_3"},
+          {t:"22:05", title:"CZ8212 Shanghai → Guangzhou ✈️", note:"Transit Guangzhou 7j35m → CZ3037 08:05, tiba Jakarta 29 Jun 12:15", k:"d28_4"},
+        ]},
+    ];
+
+    /* ---------- Packing ---------- */
+    const PACK_GROUPS = [
+      { g:"Dokumen", emoji:"📄", items:["Paspor & boarding pass","Visa China","Buku/rekam medis kehamilan","Surat dokter (fit to fly)","Kartu asuransi perjalanan","Laptop & materi kerja"] },
+      { g:"Kesehatan Bumil", emoji:"💊", items:["Vitamin & obat dari dokter","Stoking kompresi","Bantal leher / penyangga","Hand sanitizer & masker","Snack sehat (kacang, biskuit)"] },
+      { g:"Outfit (cuaca Shanghai)", emoji:"👗", items:["Dress flowy babymoon","Outfit kerja rapi","Sepatu flat nyaman","Cardigan/jaket tipis","Payung lipat (jaga-jaga hujan)"] },
+      { g:"Babymoon Kit", emoji:"💗", items:["Kamera / tripod foto","Props maternity shoot","Skincare & sunblock","Journal & pulpen","Power bank & e-SIM China"] },
+    ];
+
+    /* ---------- Tips ---------- */
+    const TIPS = [
+      {i:"💧", t:"Tetap terhidrasi", d:"Bawa botol minum sendiri, isi ulang sering — apalagi saat banyak jalan."},
+      {i:"🦵", t:"Gerak tiap jam", d:"Penerbangan ke Shanghai panjang; jalan & regangkan kaki tiap 60 menit."},
+      {i:"🛌", t:"Tidur miring kiri", d:"Posisi terbaik untuk sirkulasi ibu & bayi."},
+      {i:"🍱", t:"Makanan matang", d:"Pilih yang matang & hangat, hindari seafood mentah & kafein berlebih."},
+      {i:"📱", t:"Siapkan e-SIM + VPN", d:"Banyak app diblokir di China; siapkan e-SIM & peta offline."},
+      {i:"🏥", t:"Kontak darurat", d:"Simpan nomor RS internasional di Shanghai (mis. Parkway/United Family)."},
+      {i:"😌", t:"Jangan dipaksa", d:"Babymoon untuk santai. Skip aktivitas kalau lelah, no guilt."},
+    ];
+
+    /* ---------- Default budget (IDR) ---------- */
+    const DEFAULT_BUDGET = [
+      {id:"b1", cat:"Visa China", amt:800000, paid:false},
+      {id:"b2", cat:"Asuransi perjalanan", amt:300000, paid:false},
+      {id:"b3", cat:"e-SIM / internet", amt:150000, paid:false},
+      {id:"b4", cat:"Hotel Pujing Waiting (3 malam)", amt:5859933, paid:true},
+      {id:"b5", cat:"Transport (Maglev/Metro/Didi)", amt:700000, paid:false},
+      {id:"b6", cat:"Makan & jajan", amt:3000000, paid:false},
+      {id:"b7", cat:"Tiket wisata", amt:600000, paid:false},
+      {id:"b8", cat:"Prenatal spa babymoon", amt:800000, paid:false},
+      {id:"b9", cat:"Oleh-oleh", amt:1500000, paid:false},
+      {id:"b10", cat:"Dana darurat", amt:1000000, paid:false},
+    ];
+    const DEFAULT_CAP = 15000000;
+
+    /* ---------- Storage ---------- */
+    const KEY="rafa_babymoon_v3";
+    const load=()=>{try{return JSON.parse(localStorage.getItem(KEY))||{}}catch(e){return{}}};
+    const save=(s)=>{try{localStorage.setItem(KEY,JSON.stringify(s))}catch(e){}};
+
+    const rupiah=(n)=>"Rp "+(Number(n)||0).toLocaleString("id-ID");
+
+    /* ---------- Icons ---------- */
+    const Ic = ({d})=>(<svg className="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">{d}</svg>);
+    const icons={
+      cal:<><rect x="3" y="4" width="18" height="18" rx="3"/><path d="M3 9h18M8 2v4M16 2v4"/></>,
+      wallet:<><rect x="3" y="6" width="18" height="13" rx="3"/><path d="M3 10h18M16 14h2"/></>,
+      bag:<><path d="M5 8h14l-1 13H6L5 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></>,
+      heart:<><path d="M12 21s-7-4.6-9.5-9A5 5 0 0 1 12 6a5 5 0 0 1 9.5 6c-2.5 4.4-9.5 9-9.5 9z"/></>,
+    };
+
+    /* ---------- Heart burst ---------- */
+    function HeartBurst({fire}){
+      const [hearts,setHearts]=useState([]);
+      useEffect(()=>{ if(!fire) return;
+        const id=Date.now();
+        setHearts(h=>[...h,{id,x:fire.x,y:fire.y}]);
+        const t=setTimeout(()=>setHearts(h=>h.filter(x=>x.id!==id)),1500);
+        return()=>clearTimeout(t);
+      },[fire]);
+      return hearts.map(h=>(<div key={h.id} className="heart-float" style={{left:h.x-10,top:h.y-10}}>💗</div>));
+    }
+
+    /* ---------- Hero ---------- */
+    function Hero({done,total}){
+      const pct = total? Math.round(done/total*100):0;
+      const today = new Date(2026,5,18);
+      const daysTo = Math.ceil((TRIP.start - today)/86400000);
+      return (
+        <div className="ribbon glow card fade" style={{border:"none",color:"#fff",padding:"22px 22px 20px",marginTop:18,position:"relative",overflow:"hidden"}}>
+          <div style={{position:"absolute",right:-10,top:-18,fontSize:96,opacity:.18}}>💗</div>
+          <div style={{fontSize:12,fontWeight:700,letterSpacing:.5,opacity:.9}}>SHANGHAI · BUSINESS + BABYMOON</div>
+          <div className="serif" style={{fontSize:34,fontWeight:700,lineHeight:1.05,marginTop:4}}>{TRIP.title}</div>
+          <div style={{display:"flex",alignItems:"center",gap:8,marginTop:8,fontSize:13,fontWeight:600,opacity:.95}}>
+            <span>20 – 28 Juni 2026</span><span style={{opacity:.6}}>·</span><span>9 hari 🇨🇳</span>
+          </div>
+          <div style={{display:"flex",gap:10,marginTop:16}}>
+            <div style={{flex:1,background:"rgba(255,255,255,.18)",borderRadius:14,padding:"10px 12px"}}>
+              <div style={{fontSize:22,fontWeight:800}}>{daysTo>0?daysTo:0}</div>
+              <div style={{fontSize:11,opacity:.9,fontWeight:600}}>hari lagi 🗓️</div>
+            </div>
+            <div style={{flex:2,background:"rgba(255,255,255,.18)",borderRadius:14,padding:"10px 12px"}}>
+              <div style={{display:"flex",justifyContent:"space-between",fontSize:11,fontWeight:700,marginBottom:7}}>
+                <span>Persiapan</span><span>{pct}%</span>
+              </div>
+              <div className="progress-track" style={{background:"rgba(255,255,255,.25)"}}>
+                <div className="progress-fill" style={{width:pct+"%",background:"#fff"}}></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    /* ---------- Flights card (read-only, data asli) ---------- */
+    function Flights(){
+      const [open,setOpen]=useState(false);
+      return (
+        <div className="card" style={{padding:"16px 16px 14px",marginTop:12}}>
+          <button onClick={()=>setOpen(o=>!o)} style={{width:"100%",display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+            <span style={{fontWeight:800,fontSize:15,display:"flex",gap:8,alignItems:"center"}}>✈️ Penerbangan</span>
+            <span style={{display:"flex",alignItems:"center",gap:8}}>
+              <span style={{fontSize:11,fontWeight:700,color:"var(--muted)"}}>2 pax · 23kg</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" strokeWidth="2.5" style={{transform:open?"rotate(180deg)":"none",transition:"transform .25s"}}><path d="m6 9 6 6 6-6"/></svg>
+            </span>
+          </button>
+          {open && (
+            <div className="pop" style={{marginTop:12}}>
+              {FLIGHTS.map((f,fi)=>(
+                <div key={fi} style={{border:"1px solid var(--line)",borderRadius:16,padding:14,marginTop:fi?12:0,background:"#fff"}}>
+                  <div style={{fontWeight:800,fontSize:13.5,color:"var(--pink-700)"}}>{f.dir}</div>
+                  <div style={{fontSize:11,color:"var(--muted)",fontWeight:600,marginBottom:8}}>{f.airline} · Ref {f.ref}</div>
+                  {f.legs.map((l,li)=> l.layover ? (
+                    <div key={li} style={{fontSize:11.5,color:"var(--ink-soft)",fontWeight:600,padding:"5px 0 5px 10px",borderLeft:"2px dashed var(--pink-200)",margin:"2px 0 2px 4px"}}>↳ {l.layover}</div>
+                  ) : (
+                    <div key={li} style={{display:"flex",gap:10,alignItems:"center",padding:"7px 0"}}>
+                      <span style={{fontSize:11,fontWeight:800,color:"#fff",background:"var(--pink-500)",borderRadius:7,padding:"3px 7px",flexShrink:0}}>{l.code}</span>
+                      <div style={{flex:1,minWidth:0}}>
+                        <div style={{fontSize:13,fontWeight:700}}>{l.from} → {l.to}</div>
+                        <div style={{fontSize:11.5,color:"var(--ink-soft)"}}>{l.dep} &nbsp;—&nbsp; {l.arr}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ))}
+              <div style={{fontSize:11,color:"var(--muted)",marginTop:8,lineHeight:1.5}}>👜 Bagasi 23 kg + kabin 7–8 kg / orang. Datang 3 jam sebelum keberangkatan.</div>
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    /* ---------- Hotel card (editable) ---------- */
+    function Hotels({hotels,setHotels}){
+      const upd=(id,f,v)=>setHotels(hs=>hs.map(h=>h.id===id?{...h,[f]:v}:h));
+      const add=()=>setHotels(hs=>[...hs,{id:"h"+Date.now(),name:"",addr:"",ci:"",co:"",conf:"",note:""}]);
+      const del=(id)=>setHotels(hs=>hs.filter(h=>h.id!==id));
+      return (
+        <div className="card" style={{padding:"16px 16px 14px",marginTop:12}}>
+          <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:6}}>
+            <span style={{fontWeight:800,fontSize:15,display:"flex",gap:8,alignItems:"center"}}>🏨 Hotel & Penginapan</span>
+            <button className="iconbtn" onClick={add} aria-label="tambah hotel">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M12 5v14M5 12h14"/></svg>
+            </button>
+          </div>
+          <div style={{fontSize:12,color:"var(--muted)",marginBottom:8}}>Isi detail booking yang sudah kamu punya 👇</div>
+          {hotels.length===0 && <div style={{fontSize:13,color:"var(--ink-soft)",padding:"6px 0"}}>Belum ada — tekan + untuk menambah hotel.</div>}
+          {hotels.map((h,i)=>(
+            <div key={h.id} style={{border:"1px solid var(--line)",borderRadius:16,padding:14,marginTop:i?12:4,background:"#fff"}}>
+              <div style={{display:"flex",gap:8,alignItems:"center",marginBottom:10}}>
+                <input className="fld" style={{fontWeight:800,fontSize:15}} value={h.name} placeholder="Nama hotel" onChange={e=>upd(h.id,"name",e.target.value)}/>
+                <button className="iconbtn" style={{background:"#fff0f4",color:"var(--pink-600)"}} onClick={()=>del(h.id)} aria-label="hapus">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg>
+                </button>
+              </div>
+              <div className="lbl">Alamat</div>
+              <input className="fld" value={h.addr} placeholder="Alamat / area (mis. Nanjing Rd, Huangpu)" onChange={e=>upd(h.id,"addr",e.target.value)}/>
+              <div style={{display:"flex",gap:10,marginTop:10}}>
+                <div style={{flex:1}}>
+                  <div className="lbl">Check-in</div>
+                  <input className="fld" value={h.ci} placeholder="20 Jun, 14:00" onChange={e=>upd(h.id,"ci",e.target.value)}/>
+                </div>
+                <div style={{flex:1}}>
+                  <div className="lbl">Check-out</div>
+                  <input className="fld" value={h.co} placeholder="28 Jun, 12:00" onChange={e=>upd(h.id,"co",e.target.value)}/>
+                </div>
+              </div>
+              <div className="lbl" style={{marginTop:10}}>No. konfirmasi</div>
+              <input className="fld" value={h.conf} placeholder="Booking ID / kode konfirmasi" onChange={e=>upd(h.id,"conf",e.target.value)}/>
+              <div className="lbl" style={{marginTop:10}}>Catatan</div>
+              <input className="fld" value={h.note} placeholder="mis. minta kamar lantai rendah, dekat lift" onChange={e=>upd(h.id,"note",e.target.value)}/>
+            </div>
+          ))}
+        </div>
+      );
+    }
+
+    /* ---------- Itinerary ---------- */
+    const typeColor={travel:"#38bdf8",work:"#a78bfa",rest:"#fb7185",baby:"#ec4899"};
+    function Itinerary({state,toggle,hotels,setHotels}){
+      const [open,setOpen]=useState(20);
+      return (
+        <div className="fade">
+          <Flights/>
+          <Hotels hotels={hotels} setHotels={setHotels}/>
+          {DAYS.map(d=>{
+            const done=d.items.filter(i=>state[i.k]).length;
+            const isOpen=open===d.date;
+            return (
+              <div key={d.date} className="card" style={{marginTop:12,overflow:"hidden"}}>
+                <button onClick={()=>setOpen(isOpen?-1:d.date)} style={{width:"100%",display:"flex",alignItems:"center",gap:13,padding:"15px 16px",textAlign:"left"}}>
+                  <div style={{width:46,height:46,borderRadius:14,background:"var(--pink-50)",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",flexShrink:0}}>
+                    <div style={{fontSize:18,fontWeight:800,color:"var(--pink-600)",lineHeight:1}}>{d.date}</div>
+                    <div style={{fontSize:9,fontWeight:700,color:"var(--muted)"}}>{d.dow}</div>
+                  </div>
+                  <div style={{flex:1,minWidth:0}}>
+                    <div style={{display:"flex",alignItems:"center",gap:7}}>
+                      <span style={{fontSize:16}}>{d.emoji}</span>
+                      <span style={{fontWeight:700,fontSize:14.5}}>{d.tag}</span>
+                    </div>
+                    <div style={{fontSize:12,color:"var(--muted)",fontWeight:600,marginTop:2}}>{done}/{d.items.length} selesai</div>
+                  </div>
+                  <div style={{display:"flex",alignItems:"center",gap:8}}>
+                    <span className="dot" style={{background:typeColor[d.type]}}></span>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" strokeWidth="2.5" style={{transform:isOpen?"rotate(180deg)":"none",transition:"transform .25s"}}><path d="m6 9 6 6 6-6"/></svg>
+                  </div>
+                </button>
+                {isOpen && (
+                  <div className="pop" style={{padding:"2px 16px 16px"}}>
+                    {d.items.map((it,idx)=>(
+                      <div key={it.k} className={"check "+(state[it.k]?"row-done":"")} style={{display:"flex",gap:12,position:"relative",paddingBottom:idx===d.items.length-1?0:14}}>
+                        {idx!==d.items.length-1 && <div className="tl-line"></div>}
+                        <button onClick={(e)=>toggle(it.k,e)} style={{flexShrink:0,zIndex:1,width:40,display:"flex",justifyContent:"center"}}>
+                          <span style={{width:24,height:24,borderRadius:"50%",border:"2px solid "+(state[it.k]?"var(--pink-500)":"var(--pink-200)"),background:state[it.k]?"var(--pink-500)":"#fff",display:"flex",alignItems:"center",justifyContent:"center"}}>
+                            {state[it.k] && <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3.5"><path d="M20 6 9 17l-5-5"/></svg>}
+                          </span>
+                        </button>
+                        <div style={{flex:1,paddingTop:1}}>
+                          <div style={{display:"flex",gap:8,alignItems:"baseline"}}>
+                            <span style={{fontSize:12,fontWeight:800,color:"var(--pink-600)"}}>{it.t}</span>
+                            <span className="row-text" style={{fontSize:14,fontWeight:600}}>{it.title}</span>
+                          </div>
+                          {it.note && <div style={{fontSize:12,color:"var(--ink-soft)",marginTop:3,lineHeight:1.4}}>{it.note}</div>}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      );
+    }
+
+    /* ---------- Budget ---------- */
+    function AmtInput({value,onChange}){
+      return (
+        <input className="amt" inputMode="numeric" value={value? Number(value).toLocaleString("id-ID"):""}
+          placeholder="0"
+          onChange={e=>{const n=parseInt(e.target.value.replace(/\D/g,""),10);onChange(isNaN(n)?0:n);}}/>
+      );
+    }
+    function Budget({budget,setBudget,cap,setCap}){
+      const total=budget.reduce((s,b)=>s+(Number(b.amt)||0),0);
+      const paid=budget.filter(b=>b.paid).reduce((s,b)=>s+(Number(b.amt)||0),0);
+      const over=total>cap;
+      const pct=cap? Math.min(100,Math.round(total/cap*100)):0;
+      const remain=cap-total;
+      const upd=(id,f,v)=>setBudget(bs=>bs.map(b=>b.id===id?{...b,[f]:v}:b));
+      const add=()=>setBudget(bs=>[...bs,{id:"b"+Date.now(),cat:"",amt:0,paid:false}]);
+      const del=(id)=>setBudget(bs=>bs.filter(b=>b.id!==id));
+      return (
+        <div className="fade">
+          <div className="card glow" style={{padding:"18px 20px",marginTop:12,background:"linear-gradient(135deg,var(--pink-500),var(--pink-400))",color:"#fff",border:"none"}}>
+            <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-end"}}>
+              <div>
+                <div style={{fontSize:11,fontWeight:700,opacity:.9,letterSpacing:.3}}>TOTAL RENCANA</div>
+                <div className="serif" style={{fontSize:30,fontWeight:700,lineHeight:1.1}}>{rupiah(total)}</div>
+              </div>
+              <div style={{textAlign:"right"}}>
+                <div style={{fontSize:11,fontWeight:700,opacity:.9}}>BUDGET</div>
+                <div style={{display:"flex",alignItems:"center",gap:2,background:"rgba(255,255,255,.2)",borderRadius:10,padding:"3px 8px",marginTop:2}}>
+                  <span style={{fontWeight:800,fontSize:13}}>Rp</span>
+                  <input inputMode="numeric" value={cap.toLocaleString("id-ID")}
+                    onChange={e=>{const n=parseInt(e.target.value.replace(/\D/g,""),10);setCap(isNaN(n)?0:n);}}
+                    style={{width:90,border:"none",background:"transparent",color:"#fff",fontWeight:800,fontSize:13,textAlign:"right"}}/>
+                </div>
+              </div>
+            </div>
+            <div className="progress-track" style={{background:"rgba(255,255,255,.25)",marginTop:14}}>
+              <div className="progress-fill" style={{width:pct+"%",background:over?"#fff0f0":"#fff"}}></div>
+            </div>
+            <div style={{display:"flex",justifyContent:"space-between",marginTop:9,fontSize:12,fontWeight:700}}>
+              <span style={{opacity:.95}}>💳 Lunas: {rupiah(paid)}</span>
+              <span style={{color:over?"#7a0017":"#fff",background:over?"rgba(255,255,255,.9)":"rgba(255,255,255,.18)",borderRadius:8,padding:"2px 8px"}}>
+                {over? "Over "+rupiah(Math.abs(remain)) : "Sisa "+rupiah(remain)}
+              </span>
+            </div>
+          </div>
+
+          <div className="card" style={{padding:"8px 6px 6px",marginTop:12}}>
+            {budget.map((b,i)=>(
+              <div key={b.id} style={{display:"flex",alignItems:"center",gap:8,padding:"9px 10px",borderBottom:i===budget.length-1?"none":"1px solid var(--pink-100)"}}>
+                <button onClick={()=>upd(b.id,"paid",!b.paid)} style={{flexShrink:0}} aria-label="lunas">
+                  <span style={{width:22,height:22,borderRadius:7,border:"2px solid "+(b.paid?"var(--pink-500)":"var(--pink-200)"),background:b.paid?"var(--pink-500)":"#fff",display:"flex",alignItems:"center",justifyContent:"center"}}>
+                    {b.paid && <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3.5"><path d="M20 6 9 17l-5-5"/></svg>}
+                  </span>
+                </button>
+                <input value={b.cat} placeholder="Item pengeluaran" onChange={e=>upd(b.id,"cat",e.target.value)}
+                  style={{flex:1,minWidth:0,border:"none",background:"transparent",fontSize:13.5,fontWeight:600,color:"var(--ink)"}}/>
+                <AmtInput value={b.amt} onChange={v=>upd(b.id,"amt",v)}/>
+                <button onClick={()=>del(b.id)} style={{flexShrink:0,color:"var(--pink-300)",padding:4}} aria-label="hapus">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4"><path d="M18 6 6 18M6 6l12 12"/></svg>
+                </button>
+              </div>
+            ))}
+            <button onClick={add} style={{width:"100%",padding:"12px 0",color:"var(--pink-600)",fontWeight:800,fontSize:13.5,display:"flex",alignItems:"center",justifyContent:"center",gap:6}}>
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6"><path d="M12 5v14M5 12h14"/></svg>
+              Tambah pengeluaran
+            </button>
+          </div>
+          <div style={{fontSize:11.5,color:"var(--muted)",marginTop:10,textAlign:"center",lineHeight:1.5}}>
+            💡 Tiket pesawat business biasanya ditanggung kantor / terpisah dari budget ini.<br/>Centang kotak kalau sudah dibayar.
+          </div>
+        </div>
+      );
+    }
+
+    /* ---------- Packing ---------- */
+    function Packing({state,toggle}){
+      const allKeys=PACK_GROUPS.flatMap((g,gi)=>g.items.map((_,ii)=>"p"+gi+"_"+ii));
+      const done=allKeys.filter(k=>state[k]).length;
+      const pct=Math.round(done/allKeys.length*100);
+      return (
+        <div className="fade">
+          <div className="card" style={{padding:"16px 18px",marginTop:12}}>
+            <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:10}}>
+              <span style={{fontWeight:800,fontSize:15}}>📦 Packing List</span>
+              <span style={{fontSize:13,fontWeight:700,color:"var(--pink-600)"}}>{done}/{allKeys.length}</span>
+            </div>
+            <div className="progress-track"><div className="progress-fill" style={{width:pct+"%"}}></div></div>
+          </div>
+          {PACK_GROUPS.map((g,gi)=>(
+            <div key={gi} className="card" style={{padding:"14px 16px",marginTop:12}}>
+              <div style={{fontWeight:800,fontSize:14,marginBottom:10,display:"flex",gap:8,alignItems:"center"}}>
+                <span style={{fontSize:17}}>{g.emoji}</span>{g.g}
+              </div>
+              {g.items.map((it,ii)=>{
+                const k="p"+gi+"_"+ii;
+                return (
+                  <button key={ii} onClick={(e)=>toggle(k,e)} className={"check "+(state[k]?"row-done":"")} style={{width:"100%",display:"flex",alignItems:"center",gap:11,padding:"8px 0",textAlign:"left"}}>
+                    <span style={{flexShrink:0,width:22,height:22,borderRadius:7,border:"2px solid "+(state[k]?"var(--pink-500)":"var(--pink-200)"),background:state[k]?"var(--pink-500)":"#fff",display:"flex",alignItems:"center",justifyContent:"center"}}>
+                      {state[k] && <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3.5"><path d="M20 6 9 17l-5-5"/></svg>}
+                    </span>
+                    <span className="row-text" style={{fontSize:14,fontWeight:600}}>{it}</span>
+                  </button>
+                );
+              })}
+            </div>
+          ))}
+        </div>
+      );
+    }
+
+    /* ---------- Care ---------- */
+    function Care({note,setNote}){
+      return (
+        <div className="fade">
+          <div className="card" style={{padding:"18px 20px",marginTop:12,background:"linear-gradient(135deg,#fff,#fff1f6)"}}>
+            <div className="serif" style={{fontSize:20,fontWeight:700,color:"var(--pink-700)"}}>Tips Bumil ke Shanghai 💗</div>
+            <div style={{fontSize:13,color:"var(--ink-soft)",marginTop:4}}>Biar trip-nya aman & nyaman buat Bunda & dedek bayi.</div>
+          </div>
+          {TIPS.map((t,i)=>(
+            <div key={i} className="card" style={{padding:"14px 16px",marginTop:11,display:"flex",gap:13}}>
+              <div style={{width:40,height:40,borderRadius:12,background:"var(--pink-50)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:20,flexShrink:0}}>{t.i}</div>
+              <div>
+                <div style={{fontWeight:700,fontSize:14}}>{t.t}</div>
+                <div style={{fontSize:12.5,color:"var(--ink-soft)",marginTop:2,lineHeight:1.45}}>{t.d}</div>
+              </div>
+            </div>
+          ))}
+          <div className="card" style={{padding:"16px 18px",marginTop:14}}>
+            <div style={{fontWeight:800,fontSize:14,marginBottom:9,display:"flex",gap:8,alignItems:"center"}}>💌 Catatan untuk dedek bayi</div>
+            <textarea value={note} onChange={e=>setNote(e.target.value)} placeholder="Tulis harapan, perasaan, atau memori dari babymoon ini..."
+              style={{width:"100%",minHeight:110,border:"1px solid var(--line)",borderRadius:14,padding:"12px 14px",fontSize:14,lineHeight:1.5,color:"var(--ink)",background:"var(--pink-50)"}}/>
+            <div style={{fontSize:11,color:"var(--muted)",marginTop:6,textAlign:"right"}}>Tersimpan otomatis ✨</div>
+          </div>
+        </div>
+      );
+    }
+
+    /* ---------- App ---------- */
+    function App(){
+      const init=load();
+      const [tab,setTab]=useState("trip");
+      const [state,setState]=useState(init.checks||{});
+      const [note,setNote]=useState(init.note||"");
+      const [budget,setBudget]=useState(init.budget||DEFAULT_BUDGET);
+      const [cap,setCap]=useState(init.cap??DEFAULT_CAP);
+      const [hotels,setHotels]=useState(init.hotels||[
+        {id:"h1",name:"Pujing Waiting Hotel — People's Square",addr:"No. 219 Xinzha Rd, Huangpu District · ☎ +86-21-63357858",ci:"22 Jun, after 15:00",co:"25 Jun, before 14:00 (late check-out)",conf:"Conf 1367841482179301 · PIN 8014",note:"Zero Pressure Room, 1 queen bed, deep soaking bathtub. Sarapan 23–25. Lunas Rp 5.859.933."},
+        {id:"h2",name:"",addr:"",ci:"25 Jun",co:"28 Jun",conf:"",note:"Penginapan 25–28 Jun (isi kalau sudah booking)"},
+      ]);
+      const [burst,setBurst]=useState(null);
+
+      useEffect(()=>{save({checks:state,note,budget,cap,hotels});},[state,note,budget,cap,hotels]);
+
+      const toggle=(k,e)=>{
+        setState(s=>{
+          const nv={...s,[k]:!s[k]};
+          if(!s[k] && e){ setBurst({x:e.clientX,y:e.clientY}); }
+          return nv;
+        });
+      };
+
+      const allItin=DAYS.flatMap(d=>d.items.map(i=>i.k));
+      const allPack=PACK_GROUPS.flatMap((g,gi)=>g.items.map((_,ii)=>"p"+gi+"_"+ii));
+      const total=allItin.length+allPack.length;
+      const done=[...allItin,...allPack].filter(k=>state[k]).length;
+
+      const tabs=[
+        {k:"trip",label:"Itinerary",ic:icons.cal},
+        {k:"budget",label:"Budget",ic:icons.wallet},
+        {k:"pack",label:"Packing",ic:icons.bag},
+        {k:"care",label:"Bumil",ic:icons.heart},
+      ];
+
+      return (
+        <div className="app">
+          <HeartBurst fire={burst}/>
+          <Hero done={done} total={total}/>
+          <div className="seg" style={{marginTop:16}}>
+            {tabs.map(t=>(
+              <button key={t.k} className={tab===t.k?"on":""} onClick={()=>setTab(t.k)}>{t.label}</button>
+            ))}
+          </div>
+          {tab==="trip" && <Itinerary state={state} toggle={toggle} hotels={hotels} setHotels={setHotels}/>}
+          {tab==="budget" && <Budget budget={budget} setBudget={setBudget} cap={cap} setCap={setCap}/>}
+          {tab==="pack" && <Packing state={state} toggle={toggle}/>}
+          {tab==="care" && <Care note={note} setNote={setNote}/>}
+
+          <div style={{textAlign:"center",marginTop:28,fontSize:12,color:"var(--muted)",fontWeight:600}}>
+            Dibuat dengan 💗 untuk Rafa & dedek bayi
+          </div>
+
+          <div className="navbar">
+            <div className="navinner">
+              {tabs.map(t=>(
+                <button key={t.k} className={"navbtn tabbtn "+(tab===t.k?"on":"")} onClick={()=>setTab(t.k)}>
+                  <Ic d={t.ic}/>{t.label}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+  </script>
+</body>
+</html>
