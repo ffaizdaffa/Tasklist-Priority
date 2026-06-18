@@ -219,30 +219,44 @@
 
     /* ---------- Maps helper ---------- */
     const mapUrl=(q)=>"https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(q);
+    /* real photos via loremflickr (hotlink-friendly), emoji fallback if blocked */
+    const flickr=(tags,lock,w=480,h=300)=>"https://loremflickr.com/"+w+"/"+h+"/"+encodeURIComponent(tags)+"?lock="+lock;
+    const hl=(s)=>{let h=0;for(let i=0;i<s.length;i++)h=(h*31+s.charCodeAt(i))%9000;return h+100;};
+    const tagsFromMap=(s)=>s.replace(/[^\x00-\x7F]/g,"").replace(/[()]/g,"").trim().toLowerCase().split(/\s+/).filter(Boolean).slice(0,3).join(",")+",shanghai";
+    function Photo({tags,lock,emoji,h}){
+      return (
+        <div style={{position:"relative",height:h||150,background:"linear-gradient(135deg,var(--pink-300),var(--pink-500))",display:"flex",alignItems:"center",justifyContent:"center",overflow:"hidden"}}>
+          <span style={{fontSize:40,opacity:.9}}>{emoji||"📍"}</span>
+          <img src={flickr(tags,lock)} loading="lazy" alt="" referrerPolicy="no-referrer"
+            onError={(e)=>{e.currentTarget.style.display="none";}}
+            style={{position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover"}}/>
+        </div>
+      );
+    }
 
     /* ---------- Tempat wishlist + lokasi ---------- */
     const PLACES = [
-      {n:"The Bund (外滩)", area:"Huangpu · tepi sungai", day:"Hari 21 sore", color:"#38bdf8",
+      {n:"The Bund (外滩)", area:"Huangpu · tepi sungai", day:"Hari 21 sore", color:"#38bdf8", emoji:"🌃", tags:"shanghai,bund,skyline", lock:11,
        tip:"Tepat di depan Hyatt on the Bund. Skyline Pudong, spot foto bumil. Bawa cardigan—malam berangin.", q:"The Bund Waitan Shanghai"},
-      {n:"Huangpu River Night Cruise 🛳️", area:"Dermaga Shiliupu (十六铺)", day:"Hari 21 malam", color:"#38bdf8",
+      {n:"Huangpu River Night Cruise 🛳️", area:"Dermaga Shiliupu (十六铺)", day:"Hari 21 malam", color:"#38bdf8", emoji:"🛳️", tags:"shanghai,river,night,cruise", lock:12,
        tip:"Cruise ±50 menit, lihat Bund & Pudong bermandi lampu. Duduk santai, ramah bumil.", q:"Shiliupu Wharf Huangpu River Cruise Shanghai"},
-      {n:"Yu Yuan Garden (豫园)", area:"Huangpu · kota tua", day:"Hari 26 pagi", color:"#fb7185",
+      {n:"Yu Yuan Garden (豫园)", area:"Huangpu · kota tua", day:"Hari 26 pagi", color:"#fb7185", emoji:"🏯", tags:"yu-garden,shanghai,chinese,garden", lock:13,
        tip:"Taman klasik Ming. Jalan pelan, banyak bangku. Dekat xiao long bao Nanxiang.", q:"Yu Garden Yuyuan Shanghai"},
-      {n:"Xintiandi (新天地)", area:"Huangpu", day:"Hari 26 sore", color:"#fb7185",
+      {n:"Xintiandi (新天地)", area:"Huangpu", day:"Hari 26 sore", color:"#fb7185", emoji:"🏙️", tags:"xintiandi,shanghai,street", lock:14,
        tip:"Kawasan shikumen klasik, kafe & resto. Santai jalan sore.", q:"Xintiandi Shanghai"},
-      {n:"Taiping Lake Park (太平湖公园)", area:"Huangpu · dekat Xintiandi", day:"Hari 26 sore", color:"#fb7185",
+      {n:"Taiping Lake Park (太平湖公园)", area:"Huangpu · dekat Xintiandi", day:"Hari 26 sore", color:"#fb7185", emoji:"🌳", tags:"shanghai,park,lake", lock:15,
        tip:"Taman tenang buat duduk & foto, ±5 menit jalan dari Xintiandi.", q:"Taiping Lake Park Shanghai"},
-      {n:"Harmay 话梅", area:"Anfu Rd · French Concession", day:"Hari 27", color:"#a78bfa",
+      {n:"Harmay 话梅", area:"Anfu Rd · French Concession", day:"Hari 27", color:"#a78bfa", emoji:"💄", tags:"cosmetics,makeup,store", lock:16,
        tip:"Toko kecantikan estetik gaya warehouse. Surga skincare & makeup.", q:"HARMAY Anfu Road Shanghai"},
-      {n:"Pop Mart Flagship", area:"cek cabang terdekat", day:"Hari 27", color:"#a78bfa",
+      {n:"Pop Mart Flagship", area:"cek cabang terdekat", day:"Hari 27", color:"#a78bfa", emoji:"🧸", tags:"toys,figures,collectible", lock:17,
        tip:"Labubu & blind box. Banyak cabang—pilih yang searah rute belanja.", q:"POP MART flagship store Shanghai"},
-      {n:"Teddy Bear Cafe 🧸", area:"konfirmasi lokasi di Maps", day:"Hari 27", color:"#a78bfa",
+      {n:"Teddy Bear Cafe 🧸", area:"konfirmasi lokasi di Maps", day:"Hari 27", color:"#a78bfa", emoji:"🧸", tags:"teddy-bear,cafe,cute", lock:18,
        tip:"Kafe gemoy buat me-time & foto. Cek alamat & jam buka persis di Maps.", q:"Teddy Bear Cafe Shanghai"},
-      {n:"Immersive Tang Dynasty Dinner ✨", area:"cek venue & reservasi", day:"Hari 27 malam", color:"#ec4899",
+      {n:"Immersive Tang Dynasty Dinner ✨", area:"cek venue & reservasi", day:"Hari 27 malam", color:"#ec4899", emoji:"🍽️", tags:"chinese,banquet,lantern", lock:19,
        tip:"Dinner show ala Dinasti Tang. Reservasi dulu—minta kursi nyaman buat bumil.", q:"immersive Tang Dynasty dinner show Shanghai"},
-      {n:"Shanghai Disneyland 🏰", area:"Pudong (jauh, tenggara)", day:"Hari 26 (opsional)", color:"#ec4899",
+      {n:"Shanghai Disneyland 🏰", area:"Pudong (jauh, tenggara)", day:"Hari 25 (full day)", color:"#ec4899", emoji:"🏰", tags:"disneyland,castle,shanghai", lock:20,
        tip:"Full-day & banyak jalan. Buat bumil: sewa stroller/kursi roda, sering rehat, skip wahana ekstrem.", q:"Shanghai Disney Resort"},
-      {n:"TikTok Office — Xinjiangwan T4 💼", area:"Yangpu · No. 678 Minfu Rd", day:"Learning Trip 22–24", color:"#94a3b8", biz:true,
+      {n:"TikTok Office — Xinjiangwan T4 💼", area:"Yangpu · No. 678 Minfu Rd", day:"Learning Trip 22–24", color:"#94a3b8", biz:true, emoji:"💼", tags:"office,building,shanghai", lock:21,
        tip:"Metro Line 10 → Sanmen Road (三门路) Exit 6, jalan ±200m. ±42km dari Bandara Pudong.", q:"678 Minfu Road Yangpu Shanghai", amap:"https://www.amap.com/place/B0J15ZWMGB"},
     ];
 
@@ -369,27 +383,28 @@
 
     /* ---------- Hotel card (editable) ---------- */
     const HOTELS = [
-      {name:"Hyatt on the Bund ⭐5", dates:"21 → 22 Jun · 1 malam", addr:"199 Huang Pu Rd, Hongkou", room:"Pearl Tower River View King · sarapan 2 org", conf:"Booking 1366685689", q:"Hyatt on the Bund Shanghai"},
-      {name:"Pujing Waiting Hotel", dates:"22 → 25 Jun · 3 malam", addr:"No. 219 Xinzha Rd, Huangpu (People's Square)", room:"Zero Pressure Room + bathtub · sarapan 23–25 · LUNAS", conf:"Conf 1367841482179301 · PIN 8014", q:"Pujing Waiting Hotel Xinzha Road Shanghai"},
+      {name:"Hyatt on the Bund ⭐5", dates:"21 → 22 Jun · 1 malam", addr:"199 Huang Pu Rd, Hongkou", room:"Pearl Tower River View King · sarapan 2 org", conf:"Booking 1366685689", q:"Hyatt on the Bund Shanghai", tags:"hotel,room,luxury", lock:31, emoji:"🏨"},
+      {name:"Pujing Waiting Hotel", dates:"22 → 25 Jun · 3 malam", addr:"No. 219 Xinzha Rd, Huangpu (People's Square)", room:"Zero Pressure Room + bathtub · sarapan 23–25 · LUNAS", conf:"Conf 1367841482179301 · PIN 8014", q:"Pujing Waiting Hotel Xinzha Road Shanghai", tags:"hotel,bedroom,bathtub", lock:32, emoji:"🛁"},
     ];
     function Hotels(){
       return (
         <div className="card" style={{padding:"16px 16px 14px",marginTop:12}}>
           <div style={{fontWeight:800,fontSize:15,display:"flex",gap:8,alignItems:"center",marginBottom:10}}>🏨 Hotel</div>
           {HOTELS.map((h,i)=>(
-            <div key={i} style={{border:"1px solid var(--line)",borderRadius:16,padding:"13px 14px",marginTop:i?10:0,background:"var(--pink-50)"}}>
-              <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",gap:10}}>
-                <div style={{flex:1,minWidth:0}}>
-                  <div style={{fontWeight:800,fontSize:14.5,lineHeight:1.25}}>{h.name}</div>
-                  <div style={{display:"inline-block",fontSize:11,fontWeight:700,color:"#fff",background:"var(--pink-500)",borderRadius:7,padding:"3px 8px",marginTop:6}}>{h.dates}</div>
-                </div>
-                <a href={mapUrl(h.q)} target="_blank" rel="noopener" className="iconbtn" style={{textDecoration:"none",flexShrink:0}} aria-label="peta">
+            <div key={i} style={{border:"1px solid var(--line)",borderRadius:16,overflow:"hidden",marginTop:i?10:0,background:"var(--pink-50)"}}>
+              <div style={{position:"relative"}}>
+                <Photo tags={h.tags} lock={h.lock} emoji={h.emoji} h={118}/>
+                <span style={{position:"absolute",left:10,bottom:10,fontSize:11,fontWeight:700,color:"#fff",background:"var(--pink-500)",borderRadius:7,padding:"3px 8px",boxShadow:"0 2px 8px rgba(0,0,0,.25)"}}>{h.dates}</span>
+                <a href={mapUrl(h.q)} target="_blank" rel="noopener" style={{position:"absolute",right:10,bottom:10,textDecoration:"none",display:"flex",alignItems:"center",justifyContent:"center",width:34,height:34,borderRadius:10,background:"#fff",color:"var(--pink-600)",boxShadow:"0 2px 8px rgba(0,0,0,.25)"}} aria-label="peta">
                   <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2"><path d="M12 21s-6-5.7-6-10a6 6 0 0 1 12 0c0 4.3-6 10-6 10z"/><circle cx="12" cy="11" r="2"/></svg>
                 </a>
               </div>
-              <div style={{fontSize:12,color:"var(--ink-soft)",marginTop:8,lineHeight:1.5}}>📍 {h.addr}</div>
-              <div style={{fontSize:12,color:"var(--ink-soft)",marginTop:2,lineHeight:1.5}}>🛏️ {h.room}</div>
-              <div style={{fontSize:11.5,color:"var(--muted)",marginTop:3}}>{h.conf}</div>
+              <div style={{padding:"11px 14px 13px"}}>
+                <div style={{fontWeight:800,fontSize:14.5,lineHeight:1.25}}>{h.name}</div>
+                <div style={{fontSize:12,color:"var(--ink-soft)",marginTop:6,lineHeight:1.5}}>📍 {h.addr}</div>
+                <div style={{fontSize:12,color:"var(--ink-soft)",marginTop:2,lineHeight:1.5}}>🛏️ {h.room}</div>
+                <div style={{fontSize:11.5,color:"var(--muted)",marginTop:3}}>{h.conf}</div>
+              </div>
             </div>
           ))}
           <div style={{border:"1.5px dashed var(--pink-200)",borderRadius:16,padding:"13px 14px",marginTop:10,background:"#fff"}}>
@@ -403,17 +418,32 @@
     /* ---------- Itinerary ---------- */
     const typeColor={travel:"#38bdf8",work:"#a78bfa",rest:"#fb7185",baby:"#ec4899"};
     function Itinerary({state,toggle}){
-      const [open,setOpen]=useState(20);
+      const [openSet,setOpenSet]=useState(()=>new Set(DAYS.map(d=>d.date)));
+      const allOpen=openSet.size===DAYS.length;
+      const toggleDay=(dt)=>setOpenSet(s=>{const n=new Set(s); n.has(dt)?n.delete(dt):n.add(dt); return n;});
+      const setAll=(o)=>setOpenSet(o?new Set(DAYS.map(d=>d.date)):new Set());
+      const jump=(dt)=>{setOpenSet(s=>new Set(s).add(dt)); const el=document.getElementById("day-"+dt); if(el) el.scrollIntoView({behavior:"smooth",block:"start"});};
       return (
         <div className="fade">
           <Flights/>
           <Hotels/>
+          <div style={{display:"flex",gap:6,overflowX:"auto",padding:"12px 2px 4px",margin:"0 -2px"}}>
+            {DAYS.map(d=>(
+              <button key={d.date} onClick={()=>jump(d.date)} className="chip" style={{flexShrink:0,padding:"6px 11px",display:"flex",flexDirection:"column",alignItems:"center",lineHeight:1.1}}>
+                <span style={{fontSize:13,fontWeight:800,color:"var(--pink-600)"}}>{d.date}</span>
+                <span style={{fontSize:9,color:"var(--muted)",fontWeight:700}}>{d.dow}</span>
+              </button>
+            ))}
+          </div>
+          <div style={{display:"flex",justifyContent:"flex-end",padding:"0 2px"}}>
+            <button onClick={()=>setAll(!allOpen)} style={{fontSize:12,fontWeight:700,color:"var(--pink-600)",padding:"4px 2px"}}>{allOpen?"⊟ Tutup semua":"⊞ Buka semua"}</button>
+          </div>
           {DAYS.map(d=>{
             const done=d.items.filter(i=>state[i.k]).length;
-            const isOpen=open===d.date;
+            const isOpen=openSet.has(d.date);
             return (
-              <div key={d.date} className="card" style={{marginTop:12,overflow:"hidden"}}>
-                <button onClick={()=>setOpen(isOpen?-1:d.date)} style={{width:"100%",display:"flex",alignItems:"center",gap:13,padding:"15px 16px",textAlign:"left"}}>
+              <div key={d.date} id={"day-"+d.date} className="card" style={{marginTop:12,overflow:"hidden",scrollMarginTop:"10px"}}>
+                <button onClick={()=>toggleDay(d.date)} style={{width:"100%",display:"flex",alignItems:"center",gap:13,padding:"15px 16px",textAlign:"left"}}>
                   <div style={{width:46,height:46,borderRadius:14,background:"var(--pink-50)",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",flexShrink:0}}>
                     <div style={{fontSize:18,fontWeight:800,color:"var(--pink-600)",lineHeight:1}}>{d.date}</div>
                     <div style={{fontSize:9,fontWeight:700,color:"var(--muted)"}}>{d.dow}</div>
@@ -458,10 +488,15 @@
                           {it.go && <div style={{fontSize:12,color:"#2563a8",background:"#eaf4ff",border:"1px solid #d4e8ff",borderRadius:9,padding:"5px 9px",marginTop:6,lineHeight:1.4,fontWeight:600}}>{it.go}</div>}
                           {it.eat && <div style={{fontSize:12,color:"#9a5a00",background:"#fff5e6",border:"1px solid #ffe6c2",borderRadius:9,padding:"5px 9px",marginTop:6,lineHeight:1.4,fontWeight:600}}>{it.eat}</div>}
                           {it.map && (
-                            <a href={mapUrl(it.map)} target="_blank" rel="noopener" style={{textDecoration:"none",display:"inline-flex",alignItems:"center",gap:5,marginTop:7,background:"var(--pink-500)",color:"#fff",borderRadius:9,padding:"5px 11px",fontSize:11.5,fontWeight:700}}>
-                              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.3"><path d="M12 21s-6-5.7-6-10a6 6 0 0 1 12 0c0 4.3-6 10-6 10z"/><circle cx="12" cy="11" r="2"/></svg>
-                              Buka Peta
-                            </a>
+                            <div style={{marginTop:8}}>
+                              <div style={{borderRadius:12,overflow:"hidden"}}>
+                                <Photo tags={tagsFromMap(it.map)} lock={hl(it.map)} emoji="📍" h={104}/>
+                              </div>
+                              <a href={mapUrl(it.map)} target="_blank" rel="noopener" style={{textDecoration:"none",display:"inline-flex",alignItems:"center",gap:5,marginTop:7,background:"var(--pink-500)",color:"#fff",borderRadius:9,padding:"5px 11px",fontSize:11.5,fontWeight:700}}>
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.3"><path d="M12 21s-6-5.7-6-10a6 6 0 0 1 12 0c0 4.3-6 10-6 10z"/><circle cx="12" cy="11" r="2"/></svg>
+                                Buka Peta
+                              </a>
+                            </div>
                           )}
                         </div>
                       </div>
@@ -645,18 +680,16 @@
           {/* Wishlist places */}
           <div style={{fontWeight:800,fontSize:14,margin:"18px 4px 2px",color:"var(--ink)"}}>🗺️ Wishlist Tempat ({PLACES.length})</div>
           {PLACES.map((p,i)=>(
-            <div key={i} className="card" style={{padding:"14px 16px",marginTop:11}}>
-              <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",gap:10}}>
-                <div style={{flex:1,minWidth:0}}>
-                  <div style={{fontWeight:800,fontSize:15,lineHeight:1.25}}>{p.n}</div>
-                  <div style={{display:"flex",alignItems:"center",gap:7,marginTop:5,flexWrap:"wrap"}}>
-                    <span style={{display:"inline-flex",alignItems:"center",gap:5,fontSize:11,fontWeight:700,color:"#fff",background:p.color,borderRadius:7,padding:"3px 8px"}}>{p.day}</span>
-                    <span style={{fontSize:11.5,color:"var(--muted)",fontWeight:600}}>{p.area}</span>
-                  </div>
-                </div>
+            <div key={i} className="card" style={{marginTop:11,overflow:"hidden"}}>
+              <div style={{position:"relative"}}>
+                <Photo tags={p.tags} lock={p.lock} emoji={p.emoji} h={140}/>
+                <span style={{position:"absolute",left:10,bottom:10,fontSize:11,fontWeight:800,color:"#fff",background:p.color,borderRadius:8,padding:"4px 9px",boxShadow:"0 2px 8px rgba(0,0,0,.25)"}}>{p.day}</span>
               </div>
-              <div style={{fontSize:12.5,color:"var(--ink-soft)",marginTop:8,lineHeight:1.45}}>{p.tip}</div>
-              <div style={{display:"flex",gap:8,marginTop:11}}>
+              <div style={{padding:"12px 16px 14px"}}>
+                <div style={{fontWeight:800,fontSize:15,lineHeight:1.25}}>{p.n}</div>
+                <div style={{fontSize:11.5,color:"var(--muted)",fontWeight:600,marginTop:3}}>📍 {p.area}</div>
+                <div style={{fontSize:12.5,color:"var(--ink-soft)",marginTop:8,lineHeight:1.45}}>{p.tip}</div>
+                <div style={{display:"flex",gap:8,marginTop:11}}>
                 <a href={mapUrl(p.q)} target="_blank" rel="noopener" style={{flex:1,textDecoration:"none"}}>
                   <div style={{display:"flex",alignItems:"center",justifyContent:"center",gap:7,background:"var(--pink-500)",color:"#fff",borderRadius:12,padding:"10px 0",fontWeight:700,fontSize:13}}>
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2"><path d="M12 21s-6-5.7-6-10a6 6 0 0 1 12 0c0 4.3-6 10-6 10z"/><circle cx="12" cy="11" r="2"/></svg>
@@ -668,6 +701,7 @@
                     <div style={{display:"flex",alignItems:"center",justifyContent:"center",background:"var(--pink-50)",color:"var(--pink-600)",border:"1px solid var(--line)",borderRadius:12,padding:"10px 14px",fontWeight:700,fontSize:13}}>Amap</div>
                   </a>
                 )}
+                </div>
               </div>
             </div>
           ))}
