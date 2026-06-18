@@ -103,93 +103,98 @@
         ]},
     ];
 
-    /* ---------- Itinerary (per jam, disesuaikan e-ticket) ---------- */
+    /* ---------- Itinerary (per jam: apa, transport, peta, makan) ---------- */
     const DAYS = [
       { date:20, dow:"Sab", tag:"Terbang ke Bangkok", emoji:"✈️", type:"travel",
         outfit:"Set travel comfy (kaus + jogger) + cardigan tipis (kabin dingin) + sneakers slip-on + kaus kaki kompresi.",
         items:[
-          {t:"15:00", title:"Berangkat ke bandara CGK", note:"Bawa paspor, visa China, surat fit-to-fly", k:"d20_0"},
-          {t:"16:00", title:"Tiba CGK T3 (3 jam sebelum)", note:"Check-in Thai Airways, bagasi 23 kg/org", k:"d20_1"},
-          {t:"19:00", title:"TG436 Jakarta → Bangkok", note:"Stoking kompresi, jalan tiap jam, banyak minum", k:"d20_2"},
-          {t:"22:30", title:"Mendarat Bangkok (Suvarnabhumi)", note:"Transit 2 jam — jalan ringan, regangkan kaki", k:"d20_3"},
+          {t:"15:00", title:"Berangkat ke bandara CGK", note:"Bawa paspor, visa China, surat fit-to-fly", go:"🚗 Dari rumah → CGK Terminal 3", k:"d20_0"},
+          {t:"16:00", title:"Tiba CGK T3 (3 jam sebelum)", note:"Check-in Thai Airways, bagasi 23 kg/org", eat:"🍽️ Makan kenyang di terminal sebelum boarding", k:"d20_1"},
+          {t:"19:00", title:"TG436 Jakarta → Bangkok", note:"Stoking kompresi, jalan tiap jam, banyak minum", go:"✈️ Thai Airways TG436 (±3.5 jam)", k:"d20_2"},
+          {t:"22:30", title:"Transit Bangkok (Suvarnabhumi)", note:"Transit 2 jam — regangkan kaki", eat:"🍽️ Snack ringan di terminal transit", k:"d20_3"},
         ]},
-      { date:21, dow:"Min", tag:"Tiba + Hyatt on the Bund", emoji:"🛬", type:"travel",
-        outfit:"Loungewear adem + cardigan tipis (AC pesawat) + flat slip-on. Ganti maxi dress flowy pas check-in.",
+      { date:21, dow:"Min", tag:"Tiba + The Bund (FREE)", emoji:"🛬", type:"travel",
+        outfit:"Loungewear adem + cardigan tipis (AC pesawat) + flat slip-on. Ganti maxi dress flowy buat foto The Bund.",
         items:[
-          {t:"00:30", title:"TG662 Bangkok → Shanghai", note:"Coba tidur, pakai bantal leher", k:"d21_0"},
-          {t:"05:45", title:"Mendarat Pudong (PVG T2)", note:"Imigrasi, ambil bagasi, aktifkan e-SIM", k:"d21_1"},
-          {t:"07:30", title:"Ke Hyatt on the Bund, titip bagasi", note:"199 Huang Pu Rd, Hongkou · ☎ +86-21-63931234", k:"d21_2"},
-          {t:"10:00", title:"Sarapan + jalan santai tepi sungai", note:"Recovery, tempo pelan", k:"d21_3"},
-          {t:"15:00", title:"Check-in Hyatt on the Bund 🛎️", note:"Pearl Tower River View King — view sungai!", k:"d21_4"},
-          {t:"19:00", title:"Dinner ringan + city light dari kamar", note:"Tidur cepat, pulihkan energi", k:"d21_5"},
+          {t:"00:30", title:"TG662 Bangkok → Shanghai", note:"Coba tidur, pakai bantal leher", go:"✈️ Thai Airways TG662 (±4.5 jam)", k:"d21_0"},
+          {t:"05:45", title:"Mendarat Pudong (PVG T2)", note:"Imigrasi, ambil bagasi. Beli/aktifkan e-SIM + setup Alipay/WeChat Pay", map:"Shanghai Pudong International Airport T2", k:"d21_1"},
+          {t:"07:00", title:"Ke Hyatt on the Bund", go:"🚕 Didi/taksi ±50 mnt (¥150–200) — paling nyaman. Alt: 🚇 Metro Line 2 → East Nanjing Rd (±1 jam) lalu Didi 5 mnt", map:"Hyatt on the Bund Shanghai", k:"d21_2"},
+          {t:"08:30", title:"Titip bagasi + brunch + istirahat", note:"Recovery red-eye, tempo pelan, kaki diangkat", eat:"🍽️ Brunch di hotel / kafe sekitar Bund", k:"d21_3"},
+          {t:"15:00", title:"Check-in Hyatt on the Bund 🛎️", note:"Pearl Tower River View King — tepat di tepi sungai", k:"d21_4"},
+          {t:"18:00", title:"The Bund — skyline & foto 🌃", go:"🚶 Jalan kaki, tepat di depan hotel", map:"The Bund Waitan Shanghai", k:"d21_5"},
+          {t:"20:00", title:"Huangpu River Night Cruise 🛳️", note:"Cruise ±50 mnt, ramah bumil", go:"🚶/🚕 Ke dermaga Shiliupu ±10 mnt", eat:"🍽️ Dinner halal: Hong Chang Xing 洪长兴 (dekat Nanjing Rd)", map:"Shiliupu Wharf Huangpu River Cruise Shanghai", k:"d21_6"},
         ]},
-      { date:22, dow:"Sen", tag:"Pindah Hotel + Business", emoji:"💼", type:"work",
-        outfit:"Blouse rapi + celana kain stretch (waistband karet) + flat loafer. Smart-casual buat meeting.",
+      { date:22, dow:"Sen", tag:"TikTok Learning Trip · Day 1", emoji:"💼", type:"work",
+        outfit:"Blouse rapi + celana kain stretch (waistband karet) + flat loafer. Smart-casual + lanyard.",
         items:[
-          {t:"07:30", title:"Sarapan Hyatt", note:"", k:"d22_0"},
-          {t:"09:00", title:"Meeting / urusan business", note:"Bawa laptop, charger, materi", k:"d22_1"},
-          {t:"12:00", title:"Check-out Hyatt on the Bund 🧳", note:"Sebelum jam 12:00", k:"d22_2"},
-          {t:"13:00", title:"Lunch + istirahat kaki", note:"", k:"d22_3"},
-          {t:"15:00", title:"Check-in Pujing Waiting Hotel 🛎️", note:"No. 219 Xinzha Rd · Conf 1367841482179301 · PIN 8014", k:"d22_4"},
-          {t:"19:30", title:"Dinner", note:"", k:"d22_5"},
+          {t:"07:30", title:"Sarapan + check-out Hyatt, titip bagasi", note:"Check-out sebelum 12:00", eat:"🍽️ Sarapan termasuk di Hyatt", k:"d22_0"},
+          {t:"08:30", title:"Ke TikTok Office (Xinjiangwan T4)", go:"🚇 Metro Line 10 → Sanmen Rd (三门路) Exit 6, jalan 200m (±35 mnt)", map:"678 Minfu Road Yangpu Shanghai", k:"d22_1"},
+          {t:"09:30", title:"Sesi 1–2: Market Insight & GMV Max", note:"Ikuti rundown panitia", k:"d22_2"},
+          {t:"12:30", title:"Group lunch (disediakan)", eat:"🍽️ Lunch disediakan TikTok", k:"d22_3"},
+          {t:"14:00", title:"Sesi 3: Marketscope & C-Ads Training", k:"d22_4"},
+          {t:"17:30", title:"Check-in Pujing Waiting Hotel 🛎️", go:"🚇 Line 10 → People's Sq / Xinzha Rd (±30 mnt) atau Didi", map:"Pujing Waiting Hotel Xinzha Road Shanghai", k:"d22_5"},
+          {t:"19:30", title:"Xintiandi + Taiping Lake Park 🌃", note:"Jalan santai sore", go:"🚇 Line 10 → Xintiandi station (±15 mnt)", eat:"🍽️ Banyak resto Xintiandi; opsi halal: Yershari 耶里夏丽", map:"Xintiandi Shanghai", k:"d22_6"},
         ]},
-      { date:23, dow:"Sel", tag:"Business Day", emoji:"💼", type:"work",
-        outfit:"Dress kerja midi + blazer/cardigan tipis + flat shoes + scarf cantik buat foto di The Bund.",
+      { date:23, dow:"Sel", tag:"Learning Trip · Hangzhou 🚄", emoji:"💼", type:"work",
+        outfit:"Outfit kerja comfy buat naik kereta + cardigan. Sepatu flat (banyak jalan). Bawa snack.",
         items:[
-          {t:"07:30", title:"Sarapan hotel (termasuk)", note:"", k:"d23_0"},
-          {t:"09:00", title:"Meeting / site visit", note:"Sepatu flat nyaman, break tiap jam", k:"d23_1"},
-          {t:"13:00", title:"Business lunch", note:"", k:"d23_2"},
-          {t:"15:30", title:"Follow-up meeting", note:"", k:"d23_3"},
-          {t:"18:00", title:"Sore di The Bund (Waitan)", note:"Skyline Pudong, jalan pelan", k:"d23_4"},
-          {t:"21:00", title:"Snack malam Pu Xiang porridge", note:"Fasilitas hotel (1/hari)", k:"d23_5"},
+          {t:"07:00", title:"Sarapan + ke Hongqiao Railway Station", go:"🚇 Metro Line 2/10 → Hongqiao Railway Station", map:"Shanghai Hongqiao Railway Station", k:"d23_0"},
+          {t:"08:00", title:"Kereta cepat ke Hangzhou 🚄", note:"±1 jam; cek jadwal panitia", go:"🚄 High-speed → Hangzhou East", map:"Hangzhou East Railway Station", k:"d23_1"},
+          {t:"09:30", title:"Sesi 4: Seedance 2.0 (video + AI)", k:"d23_2"},
+          {t:"12:30", title:"Group lunch (disediakan)", eat:"🍽️ Lunch disediakan panitia", k:"d23_3"},
+          {t:"14:00", title:"Agency visit / immersion (Hangzhou)", k:"d23_4"},
+          {t:"18:30", title:"Dinner + nginep di Hangzhou", note:"Akomodasi ikut arrangement panitia", eat:"🍽️ Dinner Hangzhou (cek opsi halal via Amap)", k:"d23_5"},
         ]},
-      { date:24, dow:"Rab", tag:"Babymoon · Old Town", emoji:"💗", type:"baby",
-        outfit:"Dress katun flowy pastel + topi + sandal empuk (banyak jalan di Yu Garden) + sunblock.",
+      { date:24, dow:"Rab", tag:"Learning Trip Day 3 → balik Shanghai", emoji:"💼", type:"work",
+        outfit:"Smart-casual buat closing + cardigan buat kereta. Sepatu flat nyaman.",
         items:[
-          {t:"08:00", title:"Sarapan hotel", note:"", k:"d24_0"},
-          {t:"10:00", title:"Yu Garden (Yuyuan)", note:"Taman klasik, jalan pelan & sering duduk", k:"d24_1"},
-          {t:"12:00", title:"Xiao long bao Nanxiang", note:"Pilih yang matang", k:"d24_2"},
-          {t:"14:00", title:"Tidur siang + deep soaking bathtub 🛁", note:"Manfaatkan fasilitas kamar", k:"d24_3"},
-          {t:"16:30", title:"Tianzifang / French Concession", note:"Gang seni, foto-foto", k:"d24_4"},
-          {t:"19:00", title:"Bund night lights + foto bumil", note:"Bawa cardigan, malam berangin", k:"d24_5"},
+          {t:"07:30", title:"Sarapan (Hangzhou)", k:"d24_0"},
+          {t:"09:00", title:"Sesi 5–6: Workshop Client + Agency Visit", k:"d24_1"},
+          {t:"12:30", title:"Group lunch terakhir + closing 🎉", note:"Program selesai!", eat:"🍽️ Lunch + closing", k:"d24_2"},
+          {t:"15:00", title:"Free time / lihat West Lake sebentar", note:"Santai, jangan kelelahan", go:"🚕 Didi singkat kalau sempat", map:"West Lake Hangzhou", k:"d24_3"},
+          {t:"18:30", title:"Kereta balik ke Shanghai 🚄", note:"±1 jam; stoking kompresi", go:"🚄 Hangzhou → Shanghai Hongqiao", k:"d24_4"},
+          {t:"20:30", title:"Tiba Shanghai → hotel, istirahat 💗", go:"🚇 Line 2/10 atau Didi ke hotel", k:"d24_5"},
         ]},
-      { date:25, dow:"Kam", tag:"Spa + Check-out", emoji:"💗", type:"baby",
-        outfit:"Outfit longgar gampang dilepas buat spa + slip-on. Sore ganti dress santai buat candle dinner.",
+      { date:25, dow:"Kam", tag:"Full Day · Shanghai Disneyland 🏰", emoji:"🏰", type:"baby",
+        outfit:"Outfit super comfy + sneakers empuk + topi + sunblock + payung lipat. Bawa air & snack.",
         items:[
-          {t:"08:00", title:"Sarapan hotel (terakhir)", note:"", k:"d25_0"},
-          {t:"10:00", title:"Prenatal spa / pijat bumil", note:"Pastikan terapis berpengalaman ibu hamil", k:"d25_1"},
-          {t:"14:00", title:"Check-out (late check-out) 🧳", note:"Reward late check-out dari booking", k:"d25_2"},
-          {t:"15:30", title:"Lanjut ke penginapan berikutnya", note:"Isi detail di tab Itinerary > Hotel", k:"d25_3"},
-          {t:"18:00", title:"Jalan santai Xintiandi", note:"", k:"d25_4"},
-          {t:"20:00", title:"Candle light dinner 💞", note:"Reservasi dulu", k:"d25_5"},
+          {t:"07:00", title:"Check-out Pujing + drop bagasi", note:"Pindah ke penginapan 25–28 (cek tab Tempat)", k:"d25_0"},
+          {t:"08:00", title:"Berangkat ke Disneyland", go:"🚇 Metro Line 11 → Disney Resort station (±50 mnt)", map:"Shanghai Disney Resort", k:"d25_1"},
+          {t:"09:00", title:"Masuk Shanghai Disneyland 🏰", note:"Sewa stroller/kursi roda, sering rehat, skip wahana ekstrem", k:"d25_2"},
+          {t:"12:30", title:"Lunch di park", note:"Cari tempat teduh, banyak minum", eat:"🍽️ Resto dalam park (cek menu non-babi)", k:"d25_3"},
+          {t:"15:00", title:"Wahana santai + ketemu karakter", note:"Pilih yang ramah bumil", k:"d25_4"},
+          {t:"17:30", title:"Parade + istirahat", note:"Kaki diangkat, pijat ringan", k:"d25_5"},
+          {t:"20:00", title:"Fireworks show ✨ → balik hotel", go:"🚇 Line 11 balik ke kota / Didi", k:"d25_6"},
         ]},
-      { date:26, dow:"Jum", tag:"Babymoon · Santai", emoji:"💗", type:"baby",
-        outfit:"Maxi dress + topi lebar + sandal anti-slip (jalan batu water town) + sunblock + payung lipat.",
+      { date:26, dow:"Jum", tag:"Babymoon · Kota Tua & Xintiandi (FREE)", emoji:"💗", type:"baby",
+        outfit:"Dress katun flowy + topi + sandal empuk (banyak jalan). Sunblock + payung lipat.",
         items:[
-          {t:"08:30", title:"Sarapan", note:"", k:"d26_0"},
-          {t:"09:30", title:"Day trip Zhujiajiao water town", note:"Desa air; skip kalau lelah, ganti me-time", k:"d26_1"},
-          {t:"13:00", title:"Lunch tepi kanal", note:"", k:"d26_2"},
-          {t:"15:30", title:"Balik kota, me-time", note:"", k:"d26_3"},
-          {t:"18:00", title:"Sore di Jing'an Temple", note:"", k:"d26_4"},
-          {t:"20:30", title:"Journaling — surat dedek bayi 💌", note:"Tulis perasaan & harapan", k:"d26_5"},
+          {t:"08:30", title:"Sarapan santai", eat:"🍽️ Sarapan hotel / kafe sekitar", k:"d26_0"},
+          {t:"10:00", title:"Yu Yuan Garden (豫园)", note:"Taman klasik, jalan pelan & sering duduk", go:"🚇 Metro Line 10/14 → Yuyuan Garden (Exit 1)", map:"Yu Garden Yuyuan Shanghai", k:"d26_1"},
+          {t:"12:00", title:"Xiao long bao Nanxiang", note:"Pilih isian seafood/veggie kalau ragu", go:"🚶 Jalan kaki di area Yu Yuan", eat:"🍽️ Nanxiang Mantou Dian (xiao long bao legendaris)", map:"Nanxiang Mantou Dian Yu Garden Shanghai", k:"d26_2"},
+          {t:"14:00", title:"Tidur siang / me-time di hotel", note:"Recharge energi", k:"d26_3"},
+          {t:"16:00", title:"Xintiandi + Taiping Lake Park", note:"Jalan santai sore, foto-foto", go:"🚇 Line 10 → Xintiandi station", map:"Taiping Lake Park Shanghai", k:"d26_4"},
+          {t:"19:00", title:"Dinner halal + journaling 💌", note:"Surat buat dedek bayi", eat:"🍽️ Yershari 耶里夏丽 / Pasha (Turki)", k:"d26_5"},
         ]},
-      { date:27, dow:"Sab", tag:"Belanja & Santai", emoji:"🌸", type:"rest",
-        outfit:"Atasan adem + celana longgar nyaman + sneakers (jalan jauh belanja) + tote bag.",
+      { date:27, dow:"Sab", tag:"French Concession + Tang Dinner (FREE)", emoji:"🌸", type:"rest",
+        outfit:"Atasan adem + celana longgar + sneakers (jalan belanja) + tote bag. Malam dress cantik buat dinner show.",
         items:[
-          {t:"09:00", title:"Brunch malas-malasan", note:"", k:"d27_0"},
-          {t:"11:00", title:"Belanja Nanjing Road", note:"Oleh-oleh, teh, snack", k:"d27_1"},
-          {t:"13:00", title:"Lunch", note:"", k:"d27_2"},
-          {t:"15:00", title:"Me-time + spa kaki", note:"", k:"d27_3"},
-          {t:"19:00", title:"Dinner", note:"", k:"d27_4"},
+          {t:"09:30", title:"Brunch kafe French Concession", go:"🚇 Line 10/1 → Shanghai Library / Changshu Rd", eat:"🍽️ Brunch kafe Anfu Rd / Wukang Rd", map:"Anfu Road Shanghai", k:"d27_0"},
+          {t:"11:00", title:"Harmay 话梅 — skincare & makeup 🛍️", note:"Toko estetik gaya warehouse", go:"🚶 Jalan kaki area Anfu Rd", map:"HARMAY Anfu Road Shanghai", k:"d27_1"},
+          {t:"13:00", title:"Lunch", eat:"🍽️ Banyak pilihan kafe di French Concession", k:"d27_2"},
+          {t:"14:30", title:"Pop Mart + Teddy Bear Cafe ☕🧸", note:"Labubu dkk; me-time foto gemoy", map:"POP MART flagship Shanghai", k:"d27_3"},
+          {t:"17:00", title:"Balik hotel, istirahat + spa kaki", k:"d27_4"},
+          {t:"19:30", title:"Immersive Tang Dynasty Dinner ✨", note:"Reservasi dulu, minta kursi nyaman", map:"immersive Tang Dynasty dinner show Shanghai", k:"d27_5"},
         ]},
-      { date:28, dow:"Min", tag:"Hari Terakhir + Terbang Pulang", emoji:"🏡", type:"travel",
+      { date:28, dow:"Min", tag:"Last Day + Terbang Pulang 🏡", emoji:"🏡", type:"travel",
         outfit:"Outfit travel comfy + cardigan + sneakers slip-on + kaus kaki kompresi buat penerbangan malam.",
         items:[
-          {t:"09:00", title:"Check-out penginapan", note:"Titip bagasi, cek barang ketinggalan", k:"d28_0"},
-          {t:"11:00", title:"Jalan santai + oleh-oleh menit akhir", note:"", k:"d28_1"},
-          {t:"14:00", title:"Lunch + susun dokumen tas kabin", note:"", k:"d28_2"},
-          {t:"19:00", title:"Ke bandara PVG (3 jam sebelum)", note:"Antisipasi macet & antrean", k:"d28_3"},
-          {t:"22:05", title:"CZ8212 Shanghai → Guangzhou ✈️", note:"Transit Guangzhou 7j35m → CZ3037 08:05, tiba Jakarta 29 Jun 12:15", k:"d28_4"},
+          {t:"09:00", title:"Sarapan + packing, susun dokumen tas kabin", k:"d28_0"},
+          {t:"11:00", title:"Check-out, titip bagasi", note:"Cek barang ketinggalan", k:"d28_1"},
+          {t:"12:00", title:"Oleh-oleh terakhir (Nanjing Road)", go:"🚇 Line 2/10 → East Nanjing Rd", eat:"🍽️ Lunch halal: Hong Chang Xing 洪长兴 dekat Nanjing Rd", map:"Nanjing Road Pedestrian Street Shanghai", k:"d28_2"},
+          {t:"15:00", title:"Santai, kaki istirahat", note:"Jangan kelelahan sebelum flight panjang", k:"d28_3"},
+          {t:"19:00", title:"Ke bandara PVG (3 jam sebelum)", go:"🚇 Metro Line 2 / Maglev / Didi (±60 mnt)", map:"Shanghai Pudong International Airport T2", k:"d28_4"},
+          {t:"22:05", title:"CZ8212 Shanghai → Guangzhou ✈️", note:"Transit → CZ3037 08:05, tiba Jakarta 29 Jun 12:15", k:"d28_5"},
         ]},
     ];
 
@@ -210,6 +215,42 @@
       {i:"📱", t:"Siapkan e-SIM + VPN", d:"Banyak app diblokir di China; siapkan e-SIM & peta offline."},
       {i:"🏥", t:"Kontak darurat", d:"Simpan nomor RS internasional di Shanghai (mis. Parkway/United Family)."},
       {i:"😌", t:"Jangan dipaksa", d:"Babymoon untuk santai. Skip aktivitas kalau lelah, no guilt."},
+    ];
+
+    /* ---------- Maps helper ---------- */
+    const mapUrl=(q)=>"https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(q);
+
+    /* ---------- Tempat wishlist + lokasi ---------- */
+    const PLACES = [
+      {n:"The Bund (外滩)", area:"Huangpu · tepi sungai", day:"Hari 21 sore", color:"#38bdf8",
+       tip:"Tepat di depan Hyatt on the Bund. Skyline Pudong, spot foto bumil. Bawa cardigan—malam berangin.", q:"The Bund Waitan Shanghai"},
+      {n:"Huangpu River Night Cruise 🛳️", area:"Dermaga Shiliupu (十六铺)", day:"Hari 21 malam", color:"#38bdf8",
+       tip:"Cruise ±50 menit, lihat Bund & Pudong bermandi lampu. Duduk santai, ramah bumil.", q:"Shiliupu Wharf Huangpu River Cruise Shanghai"},
+      {n:"Yu Yuan Garden (豫园)", area:"Huangpu · kota tua", day:"Hari 26 pagi", color:"#fb7185",
+       tip:"Taman klasik Ming. Jalan pelan, banyak bangku. Dekat xiao long bao Nanxiang.", q:"Yu Garden Yuyuan Shanghai"},
+      {n:"Xintiandi (新天地)", area:"Huangpu", day:"Hari 26 sore", color:"#fb7185",
+       tip:"Kawasan shikumen klasik, kafe & resto. Santai jalan sore.", q:"Xintiandi Shanghai"},
+      {n:"Taiping Lake Park (太平湖公园)", area:"Huangpu · dekat Xintiandi", day:"Hari 26 sore", color:"#fb7185",
+       tip:"Taman tenang buat duduk & foto, ±5 menit jalan dari Xintiandi.", q:"Taiping Lake Park Shanghai"},
+      {n:"Harmay 话梅", area:"Anfu Rd · French Concession", day:"Hari 27", color:"#a78bfa",
+       tip:"Toko kecantikan estetik gaya warehouse. Surga skincare & makeup.", q:"HARMAY Anfu Road Shanghai"},
+      {n:"Pop Mart Flagship", area:"cek cabang terdekat", day:"Hari 27", color:"#a78bfa",
+       tip:"Labubu & blind box. Banyak cabang—pilih yang searah rute belanja.", q:"POP MART flagship store Shanghai"},
+      {n:"Teddy Bear Cafe 🧸", area:"konfirmasi lokasi di Maps", day:"Hari 27", color:"#a78bfa",
+       tip:"Kafe gemoy buat me-time & foto. Cek alamat & jam buka persis di Maps.", q:"Teddy Bear Cafe Shanghai"},
+      {n:"Immersive Tang Dynasty Dinner ✨", area:"cek venue & reservasi", day:"Hari 27 malam", color:"#ec4899",
+       tip:"Dinner show ala Dinasti Tang. Reservasi dulu—minta kursi nyaman buat bumil.", q:"immersive Tang Dynasty dinner show Shanghai"},
+      {n:"Shanghai Disneyland 🏰", area:"Pudong (jauh, tenggara)", day:"Hari 26 (opsional)", color:"#ec4899",
+       tip:"Full-day & banyak jalan. Buat bumil: sewa stroller/kursi roda, sering rehat, skip wahana ekstrem.", q:"Shanghai Disney Resort"},
+      {n:"TikTok Office — Xinjiangwan T4 💼", area:"Yangpu · No. 678 Minfu Rd", day:"Learning Trip 22–24", color:"#94a3b8", biz:true,
+       tip:"Metro Line 10 → Sanmen Road (三门路) Exit 6, jalan ±200m. ±42km dari Bandara Pudong.", q:"678 Minfu Road Yangpu Shanghai", amap:"https://www.amap.com/place/B0J15ZWMGB"},
+    ];
+
+    const HALAL = [
+      {n:"洪长兴 (Hong Chang Xing)", d:"Hotpot halal panci tembaga legendaris. Dekat Nanjing Rd & The Bund.", a:"黄浦区广西北路288号"},
+      {n:"Yershari 耶里夏丽", d:"Masakan Xinjiang halal terkenal. Area Lujiazui (Pudong).", a:"浦东新区陆家嘴西路168号"},
+      {n:"常赢三兄弟 · 清真涮肉", d:"Chain hotpot halal favorit Muslim (7 cabang di Shanghai).", a:"7 lokasi di Shanghai"},
+      {n:"上海帕夏 (Pasha Turki)", d:"Resto Turki—mixed grill platter (sapi, domba, ayam).", a:"黄浦区南昌路125号"},
     ];
 
     /* ---------- Default budget (IDR) ---------- */
@@ -239,6 +280,7 @@
     const Ic = ({d})=>(<svg className="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">{d}</svg>);
     const icons={
       cal:<><rect x="3" y="4" width="18" height="18" rx="3"/><path d="M3 9h18M8 2v4M16 2v4"/></>,
+      pin:<><path d="M12 21s-6-5.7-6-10a6 6 0 0 1 12 0c0 4.3-6 10-6 10z"/><circle cx="12" cy="11" r="2"/></>,
       wallet:<><rect x="3" y="6" width="18" height="13" rx="3"/><path d="M3 10h18M16 14h2"/></>,
       bag:<><path d="M5 8h14l-1 13H6L5 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></>,
       heart:<><path d="M12 21s-7-4.6-9.5-9A5 5 0 0 1 12 6a5 5 0 0 1 9.5 6c-2.5 4.4-9.5 9-9.5 9z"/></>,
@@ -326,58 +368,46 @@
     }
 
     /* ---------- Hotel card (editable) ---------- */
-    function Hotels({hotels,setHotels}){
-      const upd=(id,f,v)=>setHotels(hs=>hs.map(h=>h.id===id?{...h,[f]:v}:h));
-      const add=()=>setHotels(hs=>[...hs,{id:"h"+Date.now(),name:"",addr:"",ci:"",co:"",conf:"",note:""}]);
-      const del=(id)=>setHotels(hs=>hs.filter(h=>h.id!==id));
+    const HOTELS = [
+      {name:"Hyatt on the Bund ⭐5", dates:"21 → 22 Jun · 1 malam", addr:"199 Huang Pu Rd, Hongkou", room:"Pearl Tower River View King · sarapan 2 org", conf:"Booking 1366685689", q:"Hyatt on the Bund Shanghai"},
+      {name:"Pujing Waiting Hotel", dates:"22 → 25 Jun · 3 malam", addr:"No. 219 Xinzha Rd, Huangpu (People's Square)", room:"Zero Pressure Room + bathtub · sarapan 23–25 · LUNAS", conf:"Conf 1367841482179301 · PIN 8014", q:"Pujing Waiting Hotel Xinzha Road Shanghai"},
+    ];
+    function Hotels(){
       return (
         <div className="card" style={{padding:"16px 16px 14px",marginTop:12}}>
-          <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:6}}>
-            <span style={{fontWeight:800,fontSize:15,display:"flex",gap:8,alignItems:"center"}}>🏨 Hotel & Penginapan</span>
-            <button className="iconbtn" onClick={add} aria-label="tambah hotel">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M12 5v14M5 12h14"/></svg>
-            </button>
-          </div>
-          <div style={{fontSize:12,color:"var(--muted)",marginBottom:8}}>Isi detail booking yang sudah kamu punya 👇</div>
-          {hotels.length===0 && <div style={{fontSize:13,color:"var(--ink-soft)",padding:"6px 0"}}>Belum ada — tekan + untuk menambah hotel.</div>}
-          {hotels.map((h,i)=>(
-            <div key={h.id} style={{border:"1px solid var(--line)",borderRadius:16,padding:14,marginTop:i?12:4,background:"#fff"}}>
-              <div style={{display:"flex",gap:8,alignItems:"center",marginBottom:10}}>
-                <input className="fld" style={{fontWeight:800,fontSize:15}} value={h.name} placeholder="Nama hotel" onChange={e=>upd(h.id,"name",e.target.value)}/>
-                <button className="iconbtn" style={{background:"#fff0f4",color:"var(--pink-600)"}} onClick={()=>del(h.id)} aria-label="hapus">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg>
-                </button>
-              </div>
-              <div className="lbl">Alamat</div>
-              <input className="fld" value={h.addr} placeholder="Alamat / area (mis. Nanjing Rd, Huangpu)" onChange={e=>upd(h.id,"addr",e.target.value)}/>
-              <div style={{display:"flex",gap:10,marginTop:10}}>
-                <div style={{flex:1}}>
-                  <div className="lbl">Check-in</div>
-                  <input className="fld" value={h.ci} placeholder="20 Jun, 14:00" onChange={e=>upd(h.id,"ci",e.target.value)}/>
+          <div style={{fontWeight:800,fontSize:15,display:"flex",gap:8,alignItems:"center",marginBottom:10}}>🏨 Hotel</div>
+          {HOTELS.map((h,i)=>(
+            <div key={i} style={{border:"1px solid var(--line)",borderRadius:16,padding:"13px 14px",marginTop:i?10:0,background:"var(--pink-50)"}}>
+              <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",gap:10}}>
+                <div style={{flex:1,minWidth:0}}>
+                  <div style={{fontWeight:800,fontSize:14.5,lineHeight:1.25}}>{h.name}</div>
+                  <div style={{display:"inline-block",fontSize:11,fontWeight:700,color:"#fff",background:"var(--pink-500)",borderRadius:7,padding:"3px 8px",marginTop:6}}>{h.dates}</div>
                 </div>
-                <div style={{flex:1}}>
-                  <div className="lbl">Check-out</div>
-                  <input className="fld" value={h.co} placeholder="28 Jun, 12:00" onChange={e=>upd(h.id,"co",e.target.value)}/>
-                </div>
+                <a href={mapUrl(h.q)} target="_blank" rel="noopener" className="iconbtn" style={{textDecoration:"none",flexShrink:0}} aria-label="peta">
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2"><path d="M12 21s-6-5.7-6-10a6 6 0 0 1 12 0c0 4.3-6 10-6 10z"/><circle cx="12" cy="11" r="2"/></svg>
+                </a>
               </div>
-              <div className="lbl" style={{marginTop:10}}>No. konfirmasi</div>
-              <input className="fld" value={h.conf} placeholder="Booking ID / kode konfirmasi" onChange={e=>upd(h.id,"conf",e.target.value)}/>
-              <div className="lbl" style={{marginTop:10}}>Catatan</div>
-              <input className="fld" value={h.note} placeholder="mis. minta kamar lantai rendah, dekat lift" onChange={e=>upd(h.id,"note",e.target.value)}/>
+              <div style={{fontSize:12,color:"var(--ink-soft)",marginTop:8,lineHeight:1.5}}>📍 {h.addr}</div>
+              <div style={{fontSize:12,color:"var(--ink-soft)",marginTop:2,lineHeight:1.5}}>🛏️ {h.room}</div>
+              <div style={{fontSize:11.5,color:"var(--muted)",marginTop:3}}>{h.conf}</div>
             </div>
           ))}
+          <div style={{border:"1.5px dashed var(--pink-200)",borderRadius:16,padding:"13px 14px",marginTop:10,background:"#fff"}}>
+            <div style={{fontWeight:800,fontSize:14,color:"var(--muted)"}}>Penginapan 25 → 28 Jun · 3 malam</div>
+            <div style={{fontSize:12,color:"var(--muted)",marginTop:4,lineHeight:1.5}}>Belum dibooking — buat setelah Disneyland & free days. Kirim vouchernya nanti aku masukin.</div>
+          </div>
         </div>
       );
     }
 
     /* ---------- Itinerary ---------- */
     const typeColor={travel:"#38bdf8",work:"#a78bfa",rest:"#fb7185",baby:"#ec4899"};
-    function Itinerary({state,toggle,hotels,setHotels}){
+    function Itinerary({state,toggle}){
       const [open,setOpen]=useState(20);
       return (
         <div className="fade">
           <Flights/>
-          <Hotels hotels={hotels} setHotels={setHotels}/>
+          <Hotels/>
           {DAYS.map(d=>{
             const done=d.items.filter(i=>state[i.k]).length;
             const isOpen=open===d.date;
@@ -419,12 +449,20 @@
                             {state[it.k] && <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3.5"><path d="M20 6 9 17l-5-5"/></svg>}
                           </span>
                         </button>
-                        <div style={{flex:1,paddingTop:1}}>
+                        <div style={{flex:1,paddingTop:1,minWidth:0}}>
                           <div style={{display:"flex",gap:8,alignItems:"baseline"}}>
                             <span style={{fontSize:12,fontWeight:800,color:"var(--pink-600)"}}>{it.t}</span>
                             <span className="row-text" style={{fontSize:14,fontWeight:600}}>{it.title}</span>
                           </div>
                           {it.note && <div style={{fontSize:12,color:"var(--ink-soft)",marginTop:3,lineHeight:1.4}}>{it.note}</div>}
+                          {it.go && <div style={{fontSize:12,color:"#2563a8",background:"#eaf4ff",border:"1px solid #d4e8ff",borderRadius:9,padding:"5px 9px",marginTop:6,lineHeight:1.4,fontWeight:600}}>{it.go}</div>}
+                          {it.eat && <div style={{fontSize:12,color:"#9a5a00",background:"#fff5e6",border:"1px solid #ffe6c2",borderRadius:9,padding:"5px 9px",marginTop:6,lineHeight:1.4,fontWeight:600}}>{it.eat}</div>}
+                          {it.map && (
+                            <a href={mapUrl(it.map)} target="_blank" rel="noopener" style={{textDecoration:"none",display:"inline-flex",alignItems:"center",gap:5,marginTop:7,background:"var(--pink-500)",color:"#fff",borderRadius:9,padding:"5px 11px",fontSize:11.5,fontWeight:700}}>
+                              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.3"><path d="M12 21s-6-5.7-6-10a6 6 0 0 1 12 0c0 4.3-6 10-6 10z"/><circle cx="12" cy="11" r="2"/></svg>
+                              Buka Peta
+                            </a>
+                          )}
                         </div>
                       </div>
                     ))}
@@ -445,21 +483,23 @@
           onChange={e=>{const n=parseInt(e.target.value.replace(/\D/g,""),10);onChange(isNaN(n)?0:n);}}/>
       );
     }
-    function Budget({budget,setBudget,cap,setCap}){
-      const total=budget.reduce((s,b)=>s+(Number(b.amt)||0),0);
-      const paid=budget.filter(b=>b.paid).reduce((s,b)=>s+(Number(b.amt)||0),0);
+    function Budget({spend,setSpend,cap,setCap}){
+      const [yuan,setYuan]=useState("");
+      const [rate,setRate]=useState(2300);
+      const total=spend.reduce((s,b)=>s+(Number(b.amt)||0),0);
       const over=total>cap;
       const pct=cap? Math.min(100,Math.round(total/cap*100)):0;
       const remain=cap-total;
-      const upd=(id,f,v)=>setBudget(bs=>bs.map(b=>b.id===id?{...b,[f]:v}:b));
-      const add=()=>setBudget(bs=>[...bs,{id:"b"+Date.now(),cat:"",amt:0,paid:false}]);
-      const del=(id)=>setBudget(bs=>bs.filter(b=>b.id!==id));
+      const upd=(id,f,v)=>setSpend(bs=>bs.map(b=>b.id===id?{...b,[f]:v}:b));
+      const add=(cat,amt)=>setSpend(bs=>[{id:"s"+Date.now()+Math.random().toString(36).slice(2,5),cat:cat||"",amt:amt||0},...bs]);
+      const del=(id)=>setSpend(bs=>bs.filter(b=>b.id!==id));
+      const yuanRp=Math.round((parseFloat(yuan)||0)*(Number(rate)||0));
       return (
         <div className="fade">
           <div className="card glow" style={{padding:"18px 20px",marginTop:12,background:"linear-gradient(135deg,var(--pink-500),var(--pink-400))",color:"#fff",border:"none"}}>
             <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-end"}}>
               <div>
-                <div style={{fontSize:11,fontWeight:700,opacity:.9,letterSpacing:.3}}>TOTAL RENCANA</div>
+                <div style={{fontSize:11,fontWeight:700,opacity:.9,letterSpacing:.3}}>TOTAL SPENDING</div>
                 <div className="serif" style={{fontSize:30,fontWeight:700,lineHeight:1.1}}>{rupiah(total)}</div>
               </div>
               <div style={{textAlign:"right"}}>
@@ -476,22 +516,50 @@
               <div className="progress-fill" style={{width:pct+"%",background:over?"#fff0f0":"#fff"}}></div>
             </div>
             <div style={{display:"flex",justifyContent:"space-between",marginTop:9,fontSize:12,fontWeight:700}}>
-              <span style={{opacity:.95}}>💳 Lunas: {rupiah(paid)}</span>
+              <span style={{opacity:.95}}>🧾 {spend.length} transaksi</span>
               <span style={{color:over?"#7a0017":"#fff",background:over?"rgba(255,255,255,.9)":"rgba(255,255,255,.18)",borderRadius:8,padding:"2px 8px"}}>
                 {over? "Over "+rupiah(Math.abs(remain)) : "Sisa "+rupiah(remain)}
               </span>
             </div>
           </div>
 
+          <div className="card" style={{padding:"13px 16px",marginTop:12}}>
+            <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+              <span style={{fontWeight:800,fontSize:13.5}}>🇨🇳 Konverter Yuan</span>
+              <div style={{display:"flex",alignItems:"center",gap:4,fontSize:12,color:"var(--ink-soft)",fontWeight:600}}>
+                ¥1 = Rp
+                <input inputMode="numeric" value={rate.toLocaleString("id-ID")}
+                  onChange={e=>{const n=parseInt(e.target.value.replace(/\D/g,""),10);setRate(isNaN(n)?0:n);}}
+                  style={{width:54,border:"1px solid var(--line)",borderRadius:8,padding:"3px 6px",background:"var(--pink-50)",fontWeight:700,fontSize:12,textAlign:"right",color:"var(--pink-700)"}}/>
+              </div>
+            </div>
+            <div style={{display:"flex",alignItems:"center",gap:8,marginTop:10}}>
+              <div style={{display:"flex",alignItems:"center",gap:5,flex:1,border:"1px solid var(--line)",borderRadius:11,padding:"8px 11px",background:"var(--pink-50)"}}>
+                <span style={{fontWeight:800,color:"var(--pink-600)"}}>¥</span>
+                <input inputMode="decimal" value={yuan} placeholder="0" onChange={e=>setYuan(e.target.value.replace(/[^\d.]/g,""))}
+                  style={{flex:1,minWidth:0,border:"none",background:"transparent",fontWeight:700,fontSize:14,color:"var(--ink)"}}/>
+              </div>
+              <span style={{color:"var(--muted)",fontWeight:800}}>=</span>
+              <div style={{flex:1,fontWeight:800,fontSize:14,color:"var(--pink-700)",textAlign:"right"}}>{rupiah(yuanRp)}</div>
+            </div>
+            <button onClick={()=>{if(yuanRp>0){add("Belanja (¥"+yuan+")",yuanRp);setYuan("");}}}
+              style={{width:"100%",marginTop:10,padding:"9px 0",background:"var(--pink-500)",color:"#fff",borderRadius:11,fontWeight:800,fontSize:13,display:"flex",alignItems:"center",justifyContent:"center",gap:6}}>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6"><path d="M12 5v14M5 12h14"/></svg>
+              Catat sebagai pengeluaran
+            </button>
+          </div>
+
           <div className="card" style={{padding:"8px 6px 6px",marginTop:12}}>
-            {budget.map((b,i)=>(
-              <div key={b.id} style={{display:"flex",alignItems:"center",gap:8,padding:"9px 10px",borderBottom:i===budget.length-1?"none":"1px solid var(--pink-100)"}}>
-                <button onClick={()=>upd(b.id,"paid",!b.paid)} style={{flexShrink:0}} aria-label="lunas">
-                  <span style={{width:22,height:22,borderRadius:7,border:"2px solid "+(b.paid?"var(--pink-500)":"var(--pink-200)"),background:b.paid?"var(--pink-500)":"#fff",display:"flex",alignItems:"center",justifyContent:"center"}}>
-                    {b.paid && <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3.5"><path d="M20 6 9 17l-5-5"/></svg>}
-                  </span>
-                </button>
-                <input value={b.cat} placeholder="Item pengeluaran" onChange={e=>upd(b.id,"cat",e.target.value)}
+            {spend.length===0 && (
+              <div style={{textAlign:"center",padding:"22px 16px",color:"var(--muted)"}}>
+                <div style={{fontSize:30}}>🧾</div>
+                <div style={{fontSize:13,fontWeight:600,marginTop:6,lineHeight:1.5}}>Belum ada pengeluaran.<br/>Tap <b>+ Tambah</b> atau pakai konverter ¥ buat mulai catat.</div>
+              </div>
+            )}
+            {spend.map((b,i)=>(
+              <div key={b.id} style={{display:"flex",alignItems:"center",gap:8,padding:"9px 10px",borderBottom:i===spend.length-1?"none":"1px solid var(--pink-100)"}}>
+                <span style={{flexShrink:0,width:30,height:30,borderRadius:9,background:"var(--pink-50)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:15}}>💸</span>
+                <input value={b.cat} placeholder="Beli apa?" onChange={e=>upd(b.id,"cat",e.target.value)}
                   style={{flex:1,minWidth:0,border:"none",background:"transparent",fontSize:13.5,fontWeight:600,color:"var(--ink)"}}/>
                 <AmtInput value={b.amt} onChange={v=>upd(b.id,"amt",v)}/>
                 <button onClick={()=>del(b.id)} style={{flexShrink:0,color:"var(--pink-300)",padding:4}} aria-label="hapus">
@@ -499,13 +567,13 @@
                 </button>
               </div>
             ))}
-            <button onClick={add} style={{width:"100%",padding:"12px 0",color:"var(--pink-600)",fontWeight:800,fontSize:13.5,display:"flex",alignItems:"center",justifyContent:"center",gap:6}}>
+            <button onClick={()=>add()} style={{width:"100%",padding:"12px 0",color:"var(--pink-600)",fontWeight:800,fontSize:13.5,display:"flex",alignItems:"center",justifyContent:"center",gap:6}}>
               <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6"><path d="M12 5v14M5 12h14"/></svg>
               Tambah pengeluaran
             </button>
           </div>
           <div style={{fontSize:11.5,color:"var(--muted)",marginTop:10,textAlign:"center",lineHeight:1.5}}>
-            💡 Tiket pesawat business biasanya ditanggung kantor / terpisah dari budget ini.<br/>Centang kotak kalau sudah dibayar.
+            💡 Catat tiap kali belanja biar ketahuan sisa budget real-time. Kurs ¥ bisa kamu sesuaikan.
           </div>
         </div>
       );
@@ -547,6 +615,84 @@
       );
     }
 
+    /* ---------- Tempat & Peta ---------- */
+    function Places(){
+      return (
+        <div className="fade">
+          {/* Arrival guide */}
+          <div className="card" style={{padding:"18px 20px",marginTop:12,background:"linear-gradient(135deg,#fff,#fff1f6)"}}>
+            <div className="serif" style={{fontSize:20,fontWeight:700,color:"var(--pink-700)"}}>📍 Dari Bandara → Kota</div>
+            <div style={{fontSize:13,color:"var(--ink-soft)",marginTop:8,lineHeight:1.6}}>
+              Mendarat di <b>Pudong (PVG T2)</b>, 05:45. Cara ke pusat kota / The Bund:
+            </div>
+            <div style={{marginTop:10,display:"flex",flexDirection:"column",gap:8}}>
+              {[
+                ["🚕","Didi / Taksi","±45–60 mnt ke The Bund (¥150–200). Paling nyaman buat bumil + bagasi."],
+                ["🚇","Metro Line 2","Langsung ke People's Square ±1 jam (¥7). Hindari jam sibuk."],
+                ["🚄","Maglev","430 km/j ke Longyang Rd (±8 mnt), lanjut Metro Line 2."],
+              ].map((x,i)=>(
+                <div key={i} style={{display:"flex",gap:11,alignItems:"flex-start",background:"#fff",border:"1px solid var(--line)",borderRadius:13,padding:"10px 12px"}}>
+                  <span style={{fontSize:18}}>{x[0]}</span>
+                  <div><div style={{fontWeight:700,fontSize:13.5}}>{x[1]}</div><div style={{fontSize:12,color:"var(--ink-soft)",marginTop:1,lineHeight:1.4}}>{x[2]}</div></div>
+                </div>
+              ))}
+            </div>
+            <div style={{fontSize:12,color:"var(--ink-soft)",marginTop:11,lineHeight:1.55,background:"var(--pink-50)",border:"1px solid var(--line)",borderRadius:12,padding:"10px 12px"}}>
+              💡 Begitu mendarat: aktifkan <b>e-SIM</b>, pasang <b>Alipay/WeChat Pay</b> (scan QR buat bayar apa aja), <b>Didi</b> (taksi online) & <b>Amap</b> (peta lokal—Google Maps diblokir di China). Siapkan sedikit cash RMB.
+            </div>
+          </div>
+
+          {/* Wishlist places */}
+          <div style={{fontWeight:800,fontSize:14,margin:"18px 4px 2px",color:"var(--ink)"}}>🗺️ Wishlist Tempat ({PLACES.length})</div>
+          {PLACES.map((p,i)=>(
+            <div key={i} className="card" style={{padding:"14px 16px",marginTop:11}}>
+              <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",gap:10}}>
+                <div style={{flex:1,minWidth:0}}>
+                  <div style={{fontWeight:800,fontSize:15,lineHeight:1.25}}>{p.n}</div>
+                  <div style={{display:"flex",alignItems:"center",gap:7,marginTop:5,flexWrap:"wrap"}}>
+                    <span style={{display:"inline-flex",alignItems:"center",gap:5,fontSize:11,fontWeight:700,color:"#fff",background:p.color,borderRadius:7,padding:"3px 8px"}}>{p.day}</span>
+                    <span style={{fontSize:11.5,color:"var(--muted)",fontWeight:600}}>{p.area}</span>
+                  </div>
+                </div>
+              </div>
+              <div style={{fontSize:12.5,color:"var(--ink-soft)",marginTop:8,lineHeight:1.45}}>{p.tip}</div>
+              <div style={{display:"flex",gap:8,marginTop:11}}>
+                <a href={mapUrl(p.q)} target="_blank" rel="noopener" style={{flex:1,textDecoration:"none"}}>
+                  <div style={{display:"flex",alignItems:"center",justifyContent:"center",gap:7,background:"var(--pink-500)",color:"#fff",borderRadius:12,padding:"10px 0",fontWeight:700,fontSize:13}}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2"><path d="M12 21s-6-5.7-6-10a6 6 0 0 1 12 0c0 4.3-6 10-6 10z"/><circle cx="12" cy="11" r="2"/></svg>
+                    Buka di Google Maps
+                  </div>
+                </a>
+                {p.amap && (
+                  <a href={p.amap} target="_blank" rel="noopener" style={{textDecoration:"none"}}>
+                    <div style={{display:"flex",alignItems:"center",justifyContent:"center",background:"var(--pink-50)",color:"var(--pink-600)",border:"1px solid var(--line)",borderRadius:12,padding:"10px 14px",fontWeight:700,fontSize:13}}>Amap</div>
+                  </a>
+                )}
+              </div>
+            </div>
+          ))}
+
+          {/* Halal food */}
+          <div style={{fontWeight:800,fontSize:14,margin:"20px 4px 2px",color:"var(--ink)"}}>🍖 Makan Halal (dari panduan trip)</div>
+          {HALAL.map((h,i)=>(
+            <div key={i} className="card" style={{padding:"13px 16px",marginTop:10}}>
+              <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",gap:10}}>
+                <div style={{fontWeight:700,fontSize:14}}>{h.n}</div>
+                <a href={mapUrl(h.n+" Shanghai")} target="_blank" rel="noopener" className="iconbtn" style={{textDecoration:"none",flexShrink:0}}>
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2"><path d="M12 21s-6-5.7-6-10a6 6 0 0 1 12 0c0 4.3-6 10-6 10z"/><circle cx="12" cy="11" r="2"/></svg>
+                </a>
+              </div>
+              <div style={{fontSize:12.5,color:"var(--ink-soft)",marginTop:3,lineHeight:1.45}}>{h.d}</div>
+              <div style={{fontSize:11.5,color:"var(--muted)",marginTop:3}}>📌 {h.a}</div>
+            </div>
+          ))}
+          <div style={{fontSize:11.5,color:"var(--muted)",marginTop:14,textAlign:"center",lineHeight:1.5}}>
+            Catatan: di China, Google Maps sering diblokir — pakai <b>Amap</b> atau <b>Baidu Maps</b> saat di sana. Link di atas berguna buat rencana dari sekarang.
+          </div>
+        </div>
+      );
+    }
+
     /* ---------- Care ---------- */
     function Care({note,setNote}){
       return (
@@ -580,7 +726,7 @@
       const [tab,setTab]=useState("trip");
       const [state,setState]=useState(init.checks||{});
       const [note,setNote]=useState(init.note||"");
-      const [budget,setBudget]=useState(init.budget||DEFAULT_BUDGET);
+      const [spend,setSpend]=useState(init.spend||[]);
       const [cap,setCap]=useState(init.cap??DEFAULT_CAP);
       const [hotels,setHotels]=useState(init.hotels||[
         {id:"h0",name:"Hyatt on the Bund, Shanghai ⭐5",addr:"199 Huang Pu Rd, Hongkou · ☎ +86-21-63931234",ci:"21 Jun, 15:00",co:"22 Jun, before 12:00",conf:"Booking 1366685689 · Itinerary 9093383414980",note:"Pearl Tower River View King — view sungai. Sarapan 2 org, free wifi."},
@@ -589,7 +735,7 @@
       ]);
       const [burst,setBurst]=useState(null);
 
-      useEffect(()=>{save({checks:state,note,budget,cap,hotels});},[state,note,budget,cap,hotels]);
+      useEffect(()=>{save({checks:state,note,spend,cap,hotels});},[state,note,spend,cap,hotels]);
 
       const toggle=(k,e)=>{
         setState(s=>{
@@ -605,7 +751,8 @@
       const done=[...allItin,...allPack].filter(k=>state[k]).length;
 
       const tabs=[
-        {k:"trip",label:"Itinerary",ic:icons.cal},
+        {k:"trip",label:"Jadwal",ic:icons.cal},
+        {k:"places",label:"Tempat",ic:icons.pin},
         {k:"budget",label:"Budget",ic:icons.wallet},
         {k:"pack",label:"Packing",ic:icons.bag},
         {k:"care",label:"Bumil",ic:icons.heart},
@@ -620,8 +767,9 @@
               <button key={t.k} className={tab===t.k?"on":""} onClick={()=>setTab(t.k)}>{t.label}</button>
             ))}
           </div>
-          {tab==="trip" && <Itinerary state={state} toggle={toggle} hotels={hotels} setHotels={setHotels}/>}
-          {tab==="budget" && <Budget budget={budget} setBudget={setBudget} cap={cap} setCap={setCap}/>}
+          {tab==="trip" && <Itinerary state={state} toggle={toggle}/>}
+          {tab==="places" && <Places/>}
+          {tab==="budget" && <Budget spend={spend} setSpend={setSpend} cap={cap} setCap={setCap}/>}
           {tab==="pack" && <Packing state={state} toggle={toggle}/>}
           {tab==="care" && <Care note={note} setNote={setNote}/>}
 
