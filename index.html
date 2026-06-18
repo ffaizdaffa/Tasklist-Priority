@@ -106,31 +106,35 @@
     /* ---------- Itinerary (per jam, disesuaikan e-ticket) ---------- */
     const DAYS = [
       { date:20, dow:"Sab", tag:"Terbang ke Bangkok", emoji:"✈️", type:"travel",
+        outfit:"Set travel comfy (kaus + jogger) + cardigan tipis (kabin dingin) + sneakers slip-on + kaus kaki kompresi.",
         items:[
           {t:"15:00", title:"Berangkat ke bandara CGK", note:"Bawa paspor, visa China, surat fit-to-fly", k:"d20_0"},
           {t:"16:00", title:"Tiba CGK T3 (3 jam sebelum)", note:"Check-in Thai Airways, bagasi 23 kg/org", k:"d20_1"},
           {t:"19:00", title:"TG436 Jakarta → Bangkok", note:"Stoking kompresi, jalan tiap jam, banyak minum", k:"d20_2"},
           {t:"22:30", title:"Mendarat Bangkok (Suvarnabhumi)", note:"Transit 2 jam — jalan ringan, regangkan kaki", k:"d20_3"},
         ]},
-      { date:21, dow:"Min", tag:"Tiba di Shanghai", emoji:"🛬", type:"travel",
+      { date:21, dow:"Min", tag:"Tiba + Hyatt on the Bund", emoji:"🛬", type:"travel",
+        outfit:"Loungewear adem + cardigan tipis (AC pesawat) + flat slip-on. Ganti maxi dress flowy pas check-in.",
         items:[
           {t:"00:30", title:"TG662 Bangkok → Shanghai", note:"Coba tidur, pakai bantal leher", k:"d21_0"},
           {t:"05:45", title:"Mendarat Pudong (PVG T2)", note:"Imigrasi, ambil bagasi, aktifkan e-SIM", k:"d21_1"},
-          {t:"07:30", title:"Ke kota (Maglev + Metro / Didi)", note:"Kalau capek langsung Didi", k:"d21_2"},
-          {t:"09:30", title:"Sarapan + istirahat", note:"Hotel resmi check-in besok — titip bagasi / minta early check-in", k:"d21_3"},
-          {t:"15:00", title:"Jalan santai People's Square", note:"Tempo pelan, recovery dari perjalanan", k:"d21_4"},
-          {t:"19:00", title:"Dinner ringan + tidur cepat", note:"Pulihkan energi", k:"d21_5"},
+          {t:"07:30", title:"Ke Hyatt on the Bund, titip bagasi", note:"199 Huang Pu Rd, Hongkou · ☎ +86-21-63931234", k:"d21_2"},
+          {t:"10:00", title:"Sarapan + jalan santai tepi sungai", note:"Recovery, tempo pelan", k:"d21_3"},
+          {t:"15:00", title:"Check-in Hyatt on the Bund 🛎️", note:"Pearl Tower River View King — view sungai!", k:"d21_4"},
+          {t:"19:00", title:"Dinner ringan + city light dari kamar", note:"Tidur cepat, pulihkan energi", k:"d21_5"},
         ]},
-      { date:22, dow:"Sen", tag:"Check-in Hotel + Business", emoji:"💼", type:"work",
+      { date:22, dow:"Sen", tag:"Pindah Hotel + Business", emoji:"💼", type:"work",
+        outfit:"Blouse rapi + celana kain stretch (waistband karet) + flat loafer. Smart-casual buat meeting.",
         items:[
-          {t:"08:00", title:"Sarapan", note:"", k:"d22_0"},
+          {t:"07:30", title:"Sarapan Hyatt", note:"", k:"d22_0"},
           {t:"09:00", title:"Meeting / urusan business", note:"Bawa laptop, charger, materi", k:"d22_1"},
-          {t:"12:30", title:"Lunch + istirahat kaki", note:"", k:"d22_2"},
-          {t:"15:00", title:"Check-in Pujing Waiting Hotel 🛎️", note:"No. 219 Xinzha Rd · Conf 1367841482179301 · PIN 8014", k:"d22_3"},
-          {t:"17:00", title:"Rebahan di zero-pressure bed 😌", note:"Kaki diangkat, manjakan badan", k:"d22_4"},
+          {t:"12:00", title:"Check-out Hyatt on the Bund 🧳", note:"Sebelum jam 12:00", k:"d22_2"},
+          {t:"13:00", title:"Lunch + istirahat kaki", note:"", k:"d22_3"},
+          {t:"15:00", title:"Check-in Pujing Waiting Hotel 🛎️", note:"No. 219 Xinzha Rd · Conf 1367841482179301 · PIN 8014", k:"d22_4"},
           {t:"19:30", title:"Dinner", note:"", k:"d22_5"},
         ]},
       { date:23, dow:"Sel", tag:"Business Day", emoji:"💼", type:"work",
+        outfit:"Dress kerja midi + blazer/cardigan tipis + flat shoes + scarf cantik buat foto di The Bund.",
         items:[
           {t:"07:30", title:"Sarapan hotel (termasuk)", note:"", k:"d23_0"},
           {t:"09:00", title:"Meeting / site visit", note:"Sepatu flat nyaman, break tiap jam", k:"d23_1"},
@@ -140,6 +144,7 @@
           {t:"21:00", title:"Snack malam Pu Xiang porridge", note:"Fasilitas hotel (1/hari)", k:"d23_5"},
         ]},
       { date:24, dow:"Rab", tag:"Babymoon · Old Town", emoji:"💗", type:"baby",
+        outfit:"Dress katun flowy pastel + topi + sandal empuk (banyak jalan di Yu Garden) + sunblock.",
         items:[
           {t:"08:00", title:"Sarapan hotel", note:"", k:"d24_0"},
           {t:"10:00", title:"Yu Garden (Yuyuan)", note:"Taman klasik, jalan pelan & sering duduk", k:"d24_1"},
@@ -149,6 +154,7 @@
           {t:"19:00", title:"Bund night lights + foto bumil", note:"Bawa cardigan, malam berangin", k:"d24_5"},
         ]},
       { date:25, dow:"Kam", tag:"Spa + Check-out", emoji:"💗", type:"baby",
+        outfit:"Outfit longgar gampang dilepas buat spa + slip-on. Sore ganti dress santai buat candle dinner.",
         items:[
           {t:"08:00", title:"Sarapan hotel (terakhir)", note:"", k:"d25_0"},
           {t:"10:00", title:"Prenatal spa / pijat bumil", note:"Pastikan terapis berpengalaman ibu hamil", k:"d25_1"},
@@ -158,6 +164,7 @@
           {t:"20:00", title:"Candle light dinner 💞", note:"Reservasi dulu", k:"d25_5"},
         ]},
       { date:26, dow:"Jum", tag:"Babymoon · Santai", emoji:"💗", type:"baby",
+        outfit:"Maxi dress + topi lebar + sandal anti-slip (jalan batu water town) + sunblock + payung lipat.",
         items:[
           {t:"08:30", title:"Sarapan", note:"", k:"d26_0"},
           {t:"09:30", title:"Day trip Zhujiajiao water town", note:"Desa air; skip kalau lelah, ganti me-time", k:"d26_1"},
@@ -167,6 +174,7 @@
           {t:"20:30", title:"Journaling — surat dedek bayi 💌", note:"Tulis perasaan & harapan", k:"d26_5"},
         ]},
       { date:27, dow:"Sab", tag:"Belanja & Santai", emoji:"🌸", type:"rest",
+        outfit:"Atasan adem + celana longgar nyaman + sneakers (jalan jauh belanja) + tote bag.",
         items:[
           {t:"09:00", title:"Brunch malas-malasan", note:"", k:"d27_0"},
           {t:"11:00", title:"Belanja Nanjing Road", note:"Oleh-oleh, teh, snack", k:"d27_1"},
@@ -175,6 +183,7 @@
           {t:"19:00", title:"Dinner", note:"", k:"d27_4"},
         ]},
       { date:28, dow:"Min", tag:"Hari Terakhir + Terbang Pulang", emoji:"🏡", type:"travel",
+        outfit:"Outfit travel comfy + cardigan + sneakers slip-on + kaus kaki kompresi buat penerbangan malam.",
         items:[
           {t:"09:00", title:"Check-out penginapan", note:"Titip bagasi, cek barang ketinggalan", k:"d28_0"},
           {t:"11:00", title:"Jalan santai + oleh-oleh menit akhir", note:"", k:"d28_1"},
@@ -209,6 +218,7 @@
       {id:"b2", cat:"Asuransi perjalanan", amt:300000, paid:false},
       {id:"b3", cat:"e-SIM / internet", amt:150000, paid:false},
       {id:"b4", cat:"Hotel Pujing Waiting (3 malam)", amt:5859933, paid:true},
+      {id:"b11", cat:"Hotel Hyatt on the Bund (1 malam) — isi harga", amt:0, paid:true},
       {id:"b5", cat:"Transport (Maglev/Metro/Didi)", amt:700000, paid:false},
       {id:"b6", cat:"Makan & jajan", amt:3000000, paid:false},
       {id:"b7", cat:"Tiket wisata", amt:600000, paid:false},
@@ -219,7 +229,7 @@
     const DEFAULT_CAP = 15000000;
 
     /* ---------- Storage ---------- */
-    const KEY="rafa_babymoon_v3";
+    const KEY="rafa_babymoon_v4";
     const load=()=>{try{return JSON.parse(localStorage.getItem(KEY))||{}}catch(e){return{}}};
     const save=(s)=>{try{localStorage.setItem(KEY,JSON.stringify(s))}catch(e){}};
 
@@ -392,6 +402,15 @@
                 </button>
                 {isOpen && (
                   <div className="pop" style={{padding:"2px 16px 16px"}}>
+                    {d.outfit && (
+                      <div style={{display:"flex",gap:9,alignItems:"flex-start",background:"var(--pink-50)",border:"1px solid var(--line)",borderRadius:13,padding:"9px 12px",margin:"4px 0 14px"}}>
+                        <span style={{fontSize:15,lineHeight:1.2}}>👗</span>
+                        <div>
+                          <div style={{fontSize:10.5,fontWeight:800,color:"var(--pink-600)",letterSpacing:.4}}>OUTFIT HARI INI</div>
+                          <div style={{fontSize:12.5,color:"var(--ink)",lineHeight:1.45,marginTop:1}}>{d.outfit}</div>
+                        </div>
+                      </div>
+                    )}
                     {d.items.map((it,idx)=>(
                       <div key={it.k} className={"check "+(state[it.k]?"row-done":"")} style={{display:"flex",gap:12,position:"relative",paddingBottom:idx===d.items.length-1?0:14}}>
                         {idx!==d.items.length-1 && <div className="tl-line"></div>}
@@ -564,6 +583,7 @@
       const [budget,setBudget]=useState(init.budget||DEFAULT_BUDGET);
       const [cap,setCap]=useState(init.cap??DEFAULT_CAP);
       const [hotels,setHotels]=useState(init.hotels||[
+        {id:"h0",name:"Hyatt on the Bund, Shanghai ⭐5",addr:"199 Huang Pu Rd, Hongkou · ☎ +86-21-63931234",ci:"21 Jun, 15:00",co:"22 Jun, before 12:00",conf:"Booking 1366685689 · Itinerary 9093383414980",note:"Pearl Tower River View King — view sungai. Sarapan 2 org, free wifi."},
         {id:"h1",name:"Pujing Waiting Hotel — People's Square",addr:"No. 219 Xinzha Rd, Huangpu District · ☎ +86-21-63357858",ci:"22 Jun, after 15:00",co:"25 Jun, before 14:00 (late check-out)",conf:"Conf 1367841482179301 · PIN 8014",note:"Zero Pressure Room, 1 queen bed, deep soaking bathtub. Sarapan 23–25. Lunas Rp 5.859.933."},
         {id:"h2",name:"",addr:"",ci:"25 Jun",co:"28 Jun",conf:"",note:"Penginapan 25–28 Jun (isi kalau sudah booking)"},
       ]);
