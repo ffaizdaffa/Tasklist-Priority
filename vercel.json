@@ -1,0 +1,6 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "installCommand": "echo 'install handled in buildCommand'",
+  "buildCommand": "cd shanghai-expense-tracker && npm install && npm run build",
+  "outputDirectory": "shanghai-expense-tracker/dist"
+}
