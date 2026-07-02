@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "kalopilot": {
+      "source": "sailtonight/kalopilot-skill",
+      "sourceType": "github",
+      "skillPath": "SKILL.md",
+      "computedHash": "b872b6ba9793cd5d8e58ea06de28200b41e1c219a619077d560f30fd2cdfad53"
+    }
+  }
+}

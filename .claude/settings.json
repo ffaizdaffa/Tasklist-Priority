@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if [ -n \"${KALOPILOT_TOKEN:-}\" ]; then mkdir -p \"$HOME/.kalopilot\" && printf '%s' \"$KALOPILOT_TOKEN\" > \"$HOME/.kalopilot/token\" && chmod 600 \"$HOME/.kalopilot/token\"; fi",
+            "statusMessage": "Setting up KaloPilot token"
+          }
+        ]
+      }
+    ]
+  }
+}
