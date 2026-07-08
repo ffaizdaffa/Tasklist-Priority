@@ -64,7 +64,7 @@ export default function Settings() {
           <pre className="text-xs bg-black/[0.04] dark:bg-white/[0.04] rounded-lg p-3 overflow-x-auto">{`// vercel.json
 {
   "crons": [
-    { "path": "/api/sync", "schedule": "0 */6 * * *" }
+    { "path": "/api/sync", "schedule": "0 3 * * *" }
   ]
 }`}</pre>
           <div className="mt-2 text-xs">
