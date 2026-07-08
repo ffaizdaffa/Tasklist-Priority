@@ -43,11 +43,29 @@ export async function POST(req: NextRequest) {
     });
   }
 
-  const handles = ACCOUNTS.map((a) => a.handle.replace("@", ""));
+  // Which public usernames to scrape. Override per platform from Vercel env
+  // (APIFY_IG_USERNAMES / APIFY_TIKTOK_USERNAMES, comma-separated) so real
+  // accounts can be connected without a code change. Falls back to the
+  // registered account handles.
+  const parseUsers = (v?: string) =>
+    (v || "")
+      .split(/[,\n]/)
+      .map((s) => s.trim().replace(/^@/, ""))
+      .filter(Boolean);
+
+  const igEnv = parseUsers(process.env.APIFY_IG_USERNAMES);
+  const ttEnv = parseUsers(process.env.APIFY_TIKTOK_USERNAMES);
+  const igDefault = ACCOUNTS.filter((a) => a.platform === "Instagram").map((a) => a.handle.replace("@", ""));
+  const ttDefault = ACCOUNTS.filter((a) => a.platform === "TikTok").map((a) => a.handle.replace("@", ""));
+  const igUsers = igEnv.length ? igEnv : igDefault;
+  const ttUsers = ttEnv.length ? ttEnv : ttDefault;
+
   const results: any[] = [];
   for (const a of targets) {
     setSource(a.key, { status: "running" });
+    const handles = a.platform === "TikTok" ? ttUsers : igUsers;
     try {
+      if (!handles.length) throw new Error(`No usernames configured for ${a.platform}. Set APIFY_${a.platform === "TikTok" ? "TIKTOK" : "IG"}_USERNAMES.`);
       const raw = await runActor(a.actorId, a.buildInput(handles));
       const normalized = raw.map((r) => normalizeApifyItem(r, a.platform, ACCOUNTS[0].name));
       setSource(a.key, { status: "ok", lastSync: now, items: normalized.length, error: null });
