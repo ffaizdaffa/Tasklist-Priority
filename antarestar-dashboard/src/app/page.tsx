@@ -59,8 +59,8 @@ export default function ExecutiveSummary() {
         subtitle="Command center for ANTARESTAR social performance — Apify data, Gemini reasoning. Not a dashboard, an operating system."
         right={
           <div className="flex items-center gap-2">
-            <span className={`pill ${source === "supabase" ? "bg-emerald-500/15 text-emerald-500" : "bg-amber-500/15 text-amber-500"}`}>
-              {source === "supabase" ? "🟢 Live data" : "🟡 Demo data"}
+            <span className={`pill ${source !== "seed" ? "bg-emerald-500/15 text-emerald-500" : "bg-amber-500/15 text-amber-500"}`}>
+              {source === "sheet" ? "🟢 Live · Sheet" : source === "supabase" ? "🟢 Live · Supabase" : "🟡 Demo data"}
             </span>
             <button className="btn-primary" onClick={() => ai.run("executive_summary", { filters })} disabled={ai.loading}>
               ✨ {ai.loading ? "Generating…" : "Generate AI Report"}

@@ -60,6 +60,28 @@ async function persistContent(rows: RawRow[]) {
 }
 
 export async function GET() {
+  // Sheet backend: report a single sheet-backed source with live row count.
+  const sheetUrl = process.env.SHEET_API_URL;
+  if (sheetUrl) {
+    let count = 0;
+    let lastSync: string | null = null;
+    try {
+      const res = await fetch(`${sheetUrl}${sheetUrl.includes("?") ? "&" : "?"}action=data`, { next: { revalidate: 30 } });
+      const j = await res.json();
+      const rows = j.content || [];
+      count = rows.length;
+      lastSync = rows[0]?.syncedAt || rows[0]?.synced_at || null;
+    } catch {}
+    return NextResponse.json({
+      configured: true,
+      backend: "sheet",
+      sources: [
+        { key: "sheet", label: "Google Sheet + Apify (Apps Script)", actorId: "apps-script", platform: "Instagram", status: "ok", lastSync, items: count, error: null },
+      ],
+      log: [{ ts: lastSync || new Date(0).toISOString(), source: "sheet", level: "info", message: `Sheet backend live — ${count} rows. Sync runs in Apps Script.` }],
+    });
+  }
+
   const supa = supabaseConfigured();
   if (supa) {
     const state = await readState();
@@ -86,6 +108,26 @@ export async function POST(req: NextRequest) {
   const secret = process.env.SYNC_CRON_SECRET;
   if (secret && body.cron && body.secret !== secret) {
     return NextResponse.json({ ok: false, error: "unauthorized" }, { status: 401 });
+  }
+
+  // If the Google Sheet backend is wired, sync means "ask Apps Script to pull".
+  const sheetUrl = process.env.SHEET_API_URL;
+  if (sheetUrl) {
+    try {
+      const secret = process.env.SHEET_SYNC_SECRET || "";
+      const u = `${sheetUrl}${sheetUrl.includes("?") ? "&" : "?"}action=sync${secret ? `&secret=${encodeURIComponent(secret)}` : ""}`;
+      const res = await fetch(u, { redirect: "follow" });
+      const out = await res.json().catch(() => ({}));
+      return NextResponse.json({
+        ok: !!out.ok,
+        backend: "sheet",
+        summary: out.summary || null,
+        count: out.count ?? null,
+        error: out.error || null,
+      });
+    } catch (err: any) {
+      return NextResponse.json({ ok: false, backend: "sheet", error: String(err?.message || err) });
+    }
   }
 
   const targets = ACTORS.filter((a) => !key || a.key === key);

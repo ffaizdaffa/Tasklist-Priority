@@ -7,6 +7,7 @@ interface Config {
   gemini: { configured: boolean; model: string };
   apify: { configured: boolean; actors: { key: string; label: string; actorId: string; platform: string }[] };
   supabase: { configured: boolean };
+  sheet: { configured: boolean };
   cronSecret: boolean;
 }
 
@@ -28,8 +29,10 @@ export default function Settings() {
           okText={`Connected · ${cfg?.gemini.model}`} badText="Add GEMINI_API_KEY" env="GEMINI_API_KEY" />
         <StatusCard title="Apify Data Source" ok={cfg?.apify.configured} icon="🔄"
           okText="Connected · live scraping" badText="Add APIFY_TOKEN" env="APIFY_TOKEN" />
+        <StatusCard title="Google Sheet Backend" ok={cfg?.sheet.configured} icon="📑"
+          okText="Connected · Sheet is the database" badText="Optional · add SHEET_API_URL" env="SHEET_API_URL" />
         <StatusCard title="Supabase" ok={cfg?.supabase.configured} icon="🗄️"
-          okText="Connected · persistence on" badText="Optional · seed fallback" env="NEXT_PUBLIC_SUPABASE_URL" />
+          okText="Connected · persistence on" badText="Optional · alt. database" env="NEXT_PUBLIC_SUPABASE_URL" />
       </div>
 
       <Card className="mb-4" title="Apify actors" subtitle="Data-source actors wired into the sync engine">
