@@ -42,12 +42,35 @@ function hash(s: string): number {
   return Math.abs(h);
 }
 
-// Assign IG-scraped content deterministically across the four IG accounts,
-// and promote a slice to TikTok so the platform overview is meaningful.
+/**
+ * A raw content row — the shared shape produced by BOTH the bundled seed and
+ * the Apify sync (and stored in Supabase sm_content). Classification & scoring
+ * are derived from this by `deriveContent`, so there is one source of truth.
+ */
+export interface RawRow {
+  id: string;
+  accountId: string;
+  accountName: string;
+  platform: Platform;
+  caption: string;
+  publishDate: string;
+  mediaType: string;
+  permalink: string;
+  views: number;
+  reach: number;
+  likes: number;
+  comments: number;
+  shares: number;
+  saves: number;
+  watchTime: number;
+  profileActivity: number;
+}
+
 const IG_ACCOUNTS = ACCOUNTS.filter((a) => a.platform === "Instagram");
 
-function normalizeContent(): ContentItem[] {
-  const items: ContentItem[] = RAW_CONTENT.map((r, i) => {
+/** Build raw rows from the bundled spreadsheet seed. */
+export function seedRawRows(): RawRow[] {
+  return RAW_CONTENT.map((r, i) => {
     const h = hash(r.permalink || r.caption + i);
     const toTikTok = h % 5 === 0; // ~20% mirrored to TikTok
     const acc = toTikTok
@@ -55,15 +78,7 @@ function normalizeContent(): ContentItem[] {
       : IG_ACCOUNTS[h % IG_ACCOUNTS.length];
 
     const reach = Number(r.reach) || 0;
-    const likes = Number(r.likes) || 0;
-    const comments = Number(r.comments) || 0;
-    const shares = Number(r.shares) || 0;
-    const saves = Number(r.saved) || 0;
-    const watchTime = Number(r.avg_watch_time) || 0;
-    const engagement = likes + comments * 2 + shares * 3 + saves * 3;
-    // TikTok tends to have higher reach->views multiple
     const views = toTikTok ? Math.round(reach * (1.6 + (h % 30) / 10)) : reach;
-    const engagementRate = reach > 0 ? (engagement / reach) * 100 : 0;
 
     return {
       id: "c" + i,
@@ -71,22 +86,37 @@ function normalizeContent(): ContentItem[] {
       accountName: acc.name,
       platform: acc.platform,
       caption: r.caption,
-      hook: extractHook(r.caption),
       publishDate: (r.creation_date || "").replace("+0000", "Z"),
       mediaType: String(r.product_type || r.media_type || "FEED"),
       permalink: r.permalink || "",
       views,
       reach,
-      likes,
-      comments,
-      shares,
-      saves,
-      watchTime,
+      likes: Number(r.likes) || 0,
+      comments: Number(r.comments) || 0,
+      shares: Number(r.shares) || 0,
+      saves: Number(r.saved) || 0,
+      watchTime: Number(r.avg_watch_time) || 0,
       profileActivity: Number(r.profile_activity) || 0,
+    };
+  });
+}
+
+/**
+ * Classify + score raw rows into full ContentItems. Runs identically whether
+ * data comes from seed, Supabase, or a fresh Apify pull — so funnel/pillar/CTA
+ * detection and the composite score stay consistent as the dataset grows.
+ */
+export function deriveContent(rows: RawRow[]): ContentItem[] {
+  const items: ContentItem[] = rows.map((r) => {
+    const engagement = r.likes + r.comments * 2 + r.shares * 3 + r.saves * 3;
+    const engagementRate = r.reach > 0 ? (engagement / r.reach) * 100 : 0;
+    return {
+      ...r,
+      hook: extractHook(r.caption),
       engagement,
       engagementRate,
-      funnel: detectFunnel(r.caption, String(r.media_type)),
-      pillar: detectPillar(r.caption, String(r.media_type)),
+      funnel: detectFunnel(r.caption, r.mediaType),
+      pillar: detectPillar(r.caption, r.mediaType),
       cta: detectCTA(r.caption),
       product: detectProduct(r.caption),
       campaign: detectCampaign(r.caption),
@@ -95,9 +125,8 @@ function normalizeContent(): ContentItem[] {
     };
   });
 
-  // Composite score (0-100) via percentile ranking on views, engagement, ER, saves+shares.
   const rank = (key: (c: ContentItem) => number) => {
-    const sorted = [...items].map(key).sort((a, b) => a - b);
+    const sorted = items.map(key).sort((a, b) => a - b);
     return (v: number) => {
       const idx = sorted.findIndex((x) => x >= v);
       return sorted.length > 1 ? (idx / (sorted.length - 1)) * 100 : 50;
@@ -108,7 +137,6 @@ function normalizeContent(): ContentItem[] {
   const rEr = rank((c) => c.engagementRate);
   const rSave = rank((c) => c.saves + c.shares);
 
-  // Median ER per account for velocity
   const byAcc: Record<string, number[]> = {};
   items.forEach((c) => (byAcc[c.accountId] ||= []).push(c.engagementRate));
   const median = (arr: number[]) => {
@@ -135,8 +163,9 @@ function normalizeContent(): ContentItem[] {
 }
 
 let _content: ContentItem[] | null = null;
+/** Server-side seed content (used as fallback + by AI context). */
 export function getContent(): ContentItem[] {
-  return (_content ??= normalizeContent());
+  return (_content ??= deriveContent(seedRawRows()));
 }
 
 function normalizeMonthly(): MonthlyMetric[] {
@@ -146,7 +175,7 @@ function normalizeMonthly(): MonthlyMetric[] {
     const acc = ACCOUNT_BY_NAME[r.account];
     if (!acc) continue;
     const key = r.month + "|" + r.account;
-    if (seen.has(key)) continue; // spreadsheet has dup Feb rows
+    if (seen.has(key)) continue;
     seen.add(key);
     const engagement = (r.likes || 0) + (r.comments || 0) + (r.shares || 0) + (r.save || 0);
     const reach = r.reach || 0;

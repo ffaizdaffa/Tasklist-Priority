@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useMemo, useState } from "react";
-import { getContent } from "@/lib/normalize";
+import { useContent } from "@/lib/dataClient";
 import { filterContent, type Filters } from "@/lib/analytics";
 import type { ContentItem } from "@/lib/types";
 import { Page } from "@/components/Page";
@@ -15,7 +15,7 @@ export default function ContentPerformance() {
   const [view, setView] = useState<"table" | "card">("table");
   const [sort, setSort] = useState<Sort>("score");
   const [selected, setSelected] = useState<ContentItem | null>(null);
-  const all = getContent();
+  const all = useContent();
 
   const items = useMemo(() => {
     const f = filterContent(all, filters);

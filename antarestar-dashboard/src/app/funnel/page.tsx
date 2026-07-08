@@ -1,6 +1,6 @@
 "use client";
 import { useMemo, useState } from "react";
-import { getContent } from "@/lib/normalize";
+import { useContent } from "@/lib/dataClient";
 import { byFunnel, filterContent, topBy, FUNNEL_META, FUNNELS, aggregate, type Filters } from "@/lib/analytics";
 import { Page } from "@/components/Page";
 import { PageHeader, Card, fmt, FunnelBadge, ScoreRing } from "@/components/ui";
@@ -10,7 +10,7 @@ import { BarChartCard } from "@/components/charts";
 
 export default function FunnelDashboard() {
   const [filters, setFilters] = useState<Filters>({});
-  const all = getContent();
+  const all = useContent();
   const items = useMemo(() => filterContent(all, filters), [all, filters]);
   const fb = byFunnel(items);
   const total = items.length || 1;

@@ -1,6 +1,7 @@
 "use client";
 import { useMemo, useState } from "react";
-import { ACCOUNTS, getContent } from "@/lib/normalize";
+import { ACCOUNTS } from "@/lib/normalize";
+import { useContent } from "@/lib/dataClient";
 import { Page } from "@/components/Page";
 import { PageHeader, Card, fmt } from "@/components/ui";
 
@@ -17,7 +18,7 @@ const STAGES = [
 const WEEKLY_TARGET = 5; // per account per week
 
 export default function Workflow() {
-  const content = getContent();
+  const content = useContent();
 
   // Build week buckets from publish dates
   const weeks = useMemo(() => {

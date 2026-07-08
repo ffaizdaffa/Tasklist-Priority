@@ -1,6 +1,6 @@
 "use client";
 import { useMemo, useState } from "react";
-import { getContent } from "@/lib/normalize";
+import { useContent } from "@/lib/dataClient";
 import { byPillar, filterContent, topBy, type Filters } from "@/lib/analytics";
 import { Page } from "@/components/Page";
 import { PageHeader, Card, fmt, PillarBadge } from "@/components/ui";
@@ -10,7 +10,7 @@ import { AiInsightPanel } from "@/components/AiPanel";
 
 export default function Pillars() {
   const [filters, setFilters] = useState<Filters>({});
-  const all = getContent();
+  const all = useContent();
   const items = useMemo(() => filterContent(all, filters), [all, filters]);
   const pb = byPillar(items).filter((p) => p.count > 0).sort((a, b) => b.count - a.count);
 

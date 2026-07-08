@@ -1,6 +1,7 @@
 "use client";
 import { useMemo } from "react";
-import { ACCOUNTS, getContent, getMonthly, MONTHS } from "@/lib/normalize";
+import { ACCOUNTS, getMonthly, MONTHS } from "@/lib/normalize";
+import { useContent } from "@/lib/dataClient";
 import { aggregate } from "@/lib/analytics";
 import { Page } from "@/components/Page";
 import { PageHeader, Card, fmt, PlatformBadge } from "@/components/ui";
@@ -15,7 +16,7 @@ const ROLE_COLOR: Record<string, string> = {
 };
 
 export default function Accounts() {
-  const content = getContent();
+  const content = useContent();
   const monthly = getMonthly();
 
   const rows = useMemo(

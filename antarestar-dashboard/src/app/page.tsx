@@ -1,6 +1,8 @@
 "use client";
 import { useMemo, useState } from "react";
-import { getContent, getMonthly, MONTHS } from "@/lib/normalize";
+import { getMonthly, MONTHS } from "@/lib/normalize";
+import { useContent, useDataSource } from "@/lib/dataClient";
+import type { ContentItem } from "@/lib/types";
 import {
   aggregate,
   buildInsights,
@@ -20,7 +22,8 @@ import { AiOutput, useAi } from "@/components/AiPanel";
 
 export default function ExecutiveSummary() {
   const [filters, setFilters] = useState<Filters>({});
-  const all = getContent();
+  const all = useContent();
+  const source = useDataSource();
   const items = useMemo(() => filterContent(all, filters), [all, filters]);
   const ai = useAi();
 
@@ -55,9 +58,14 @@ export default function ExecutiveSummary() {
         title="Executive Summary"
         subtitle="Command center for ANTARESTAR social performance — Apify data, Gemini reasoning. Not a dashboard, an operating system."
         right={
-          <button className="btn-primary" onClick={() => ai.run("executive_summary", { filters })} disabled={ai.loading}>
-            ✨ {ai.loading ? "Generating…" : "Generate AI Report"}
-          </button>
+          <div className="flex items-center gap-2">
+            <span className={`pill ${source === "supabase" ? "bg-emerald-500/15 text-emerald-500" : "bg-amber-500/15 text-amber-500"}`}>
+              {source === "supabase" ? "🟢 Live data" : "🟡 Demo data"}
+            </span>
+            <button className="btn-primary" onClick={() => ai.run("executive_summary", { filters })} disabled={ai.loading}>
+              ✨ {ai.loading ? "Generating…" : "Generate AI Report"}
+            </button>
+          </div>
         }
       />
 
@@ -118,7 +126,7 @@ export default function ExecutiveSummary() {
   );
 }
 
-function ContentRow({ c }: { c: ReturnType<typeof getContent>[number] }) {
+function ContentRow({ c }: { c: ContentItem }) {
   return (
     <a
       href={c.permalink || "#"}

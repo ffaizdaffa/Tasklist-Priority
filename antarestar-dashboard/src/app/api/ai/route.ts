@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getContent } from "@/lib/normalize";
+import { deriveContent } from "@/lib/normalize";
+import { getServerRows } from "@/lib/serverData";
 import {
   aggregate,
   buildInsights,
@@ -47,7 +48,8 @@ export async function POST(req: NextRequest) {
   const question: string | undefined = body.question;
   const contentId: string | undefined = body.contentId;
 
-  const all = getContent();
+  const { rows } = await getServerRows();
+  const all = deriveContent(rows);
   const items = filterContent(all, filters);
   const summary = aggregate(items);
   const insights = buildInsights(items);

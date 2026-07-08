@@ -1,6 +1,7 @@
 "use client";
 import { useMemo } from "react";
-import { getContent, TIKTOK_DAILY } from "@/lib/normalize";
+import { TIKTOK_DAILY } from "@/lib/normalize";
+import { useContent } from "@/lib/dataClient";
 import { aggregate, topBy } from "@/lib/analytics";
 import { Page } from "@/components/Page";
 import { PageHeader, Card, KpiCard, fmt, PlatformBadge } from "@/components/ui";
@@ -11,7 +12,7 @@ const PLATFORMS: Platform[] = ["Instagram", "TikTok", "Facebook", "YouTube"];
 const ICON: Record<string, string> = { Instagram: "📸", TikTok: "🎵", Facebook: "👍", YouTube: "▶️" };
 
 export default function Platforms() {
-  const all = getContent();
+  const all = useContent();
 
   const groups = useMemo(
     () =>

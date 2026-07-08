@@ -1,6 +1,6 @@
 "use client";
 import { useMemo, useState } from "react";
-import { getContent } from "@/lib/normalize";
+import { useContent } from "@/lib/dataClient";
 import { filterContent, topBy, type Filters } from "@/lib/analytics";
 import type { ContentItem } from "@/lib/types";
 import { Page } from "@/components/Page";
@@ -19,7 +19,7 @@ const TABS: { key: Tab; label: string; icon: string; sort: (c: ContentItem) => n
 export default function Winning() {
   const [filters, setFilters] = useState<Filters>({});
   const [tab, setTab] = useState<Tab>("views");
-  const all = getContent();
+  const all = useContent();
   const items = useMemo(() => filterContent(all, filters), [all, filters]);
   const active = TABS.find((t) => t.key === tab)!;
   const top = topBy(items, active.sort, 10);
