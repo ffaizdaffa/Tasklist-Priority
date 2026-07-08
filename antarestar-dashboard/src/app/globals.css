@@ -1,0 +1,94 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #f6f7fb;
+  --panel: #ffffff;
+  --border: #e7e9f2;
+  --text: #0b1230;
+  --muted: #6b7394;
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+.dark {
+  --bg: #070c22;
+  --panel: #0f1734;
+  --border: #1c2647;
+  --text: #eef1f8;
+  --muted: #8b93b8;
+}
+
+html,
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+* {
+  border-color: var(--border);
+}
+
+.card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: 0 1px 3px rgba(16, 24, 56, 0.05);
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.pill {
+  @apply inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-semibold;
+}
+
+.btn {
+  @apply inline-flex items-center justify-center gap-2 rounded-lg px-3.5 py-2 text-sm font-semibold transition;
+}
+.btn-primary {
+  @apply btn bg-brand-500 text-white hover:bg-brand-600 shadow-sm;
+}
+.btn-ghost {
+  @apply btn border;
+  background: var(--panel);
+  color: var(--text);
+}
+.btn-ghost:hover {
+  border-color: #f97316;
+}
+
+.input {
+  @apply rounded-lg border px-3 py-2 text-sm outline-none;
+  background: var(--panel);
+  color: var(--text);
+}
+.input:focus {
+  border-color: #f97316;
+}
+
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 8px; }
+
+.gradient-navy {
+  background: linear-gradient(135deg, #101838 0%, #1e2a52 60%, #2a3a6e 100%);
+}
+.text-gradient {
+  background: linear-gradient(90deg, #f97316, #ff9d4d);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@keyframes shimmer {
+  0% { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+.shimmer {
+  background: linear-gradient(90deg, var(--border) 25%, var(--panel) 37%, var(--border) 63%);
+  background-size: 800px 104px;
+  animation: shimmer 1.4s infinite linear;
+}
