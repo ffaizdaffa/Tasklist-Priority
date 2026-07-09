@@ -1,0 +1,66 @@
+{
+  "account": { "advertiser_id": "demo-001", "advertiser_name": "Northwind Demo Store", "currency": "USD", "timezone": "America/New_York" },
+  "date_range": { "start_date": "2026-06-01", "end_date": "2026-06-30", "days": 30 },
+  "events": { "has_conversion_events": true, "pixel_count": 1 },
+  "campaigns": [
+    { "campaign_id": "C1", "campaign_name": "Conversions - Prospecting", "objective_type": "WEB_CONVERSIONS", "budget": 130, "budget_mode": "BUDGET_MODE_DAY", "operation_status": "ENABLE", "secondary_status": "CAMPAIGN_STATUS_DELIVERY_OK" },
+    { "campaign_id": "C2", "campaign_name": "Conversions - Retargeting", "objective_type": "WEB_CONVERSIONS", "budget": 0, "budget_mode": "BUDGET_MODE_INFINITE", "operation_status": "ENABLE", "secondary_status": "CAMPAIGN_STATUS_DELIVERY_OK" },
+    { "campaign_id": "C3", "campaign_name": "Traffic - Blog", "objective_type": "TRAFFIC", "budget": 20, "budget_mode": "BUDGET_MODE_DAY", "operation_status": "ENABLE", "secondary_status": "CAMPAIGN_STATUS_DELIVERY_OK" },
+    { "campaign_id": "C4", "campaign_name": "Reach - Awareness", "objective_type": "REACH", "budget": 30, "budget_mode": "BUDGET_MODE_DAY", "operation_status": "ENABLE", "secondary_status": "CAMPAIGN_STATUS_DELIVERY_OK" }
+  ],
+  "adgroups": [
+    { "adgroup_id": "G1", "campaign_id": "C1", "adgroup_name": "Broad Lookalike 3pct", "optimization_goal": "CONVERT", "budget": 80, "budget_mode": "BUDGET_MODE_DAY", "operation_status": "ENABLE", "secondary_status": "ADGROUP_STATUS_DELIVERY_OK" },
+    { "adgroup_id": "G2", "campaign_id": "C1", "adgroup_name": "Interest Stack - Home", "optimization_goal": "CONVERT", "budget": 50, "budget_mode": "BUDGET_MODE_DAY", "operation_status": "ENABLE", "secondary_status": "ADGROUP_STATUS_DELIVERY_OK" },
+    { "adgroup_id": "G3", "campaign_id": "C1", "adgroup_name": "Cold Broad - No Cap", "optimization_goal": "CONVERT", "budget": 30, "budget_mode": "BUDGET_MODE_DAY", "operation_status": "ENABLE", "secondary_status": "ADGROUP_STATUS_DELIVERY_OK" },
+    { "adgroup_id": "G4", "campaign_id": "C2", "adgroup_name": "Retarget 7 day viewers", "optimization_goal": "CONVERT", "budget": 25, "budget_mode": "BUDGET_MODE_DAY", "operation_status": "ENABLE", "secondary_status": "ADGROUP_STATUS_DELIVERY_OK" },
+    { "adgroup_id": "G5", "campaign_id": "C2", "adgroup_name": "Retarget 30 day all", "optimization_goal": "CONVERT", "budget": 35, "budget_mode": "BUDGET_MODE_DAY", "operation_status": "ENABLE", "secondary_status": "ADGROUP_STATUS_DELIVERY_OK" },
+    { "adgroup_id": "G6", "campaign_id": "C3", "adgroup_name": "Blog Broad Traffic", "optimization_goal": "CLICK", "budget": 12, "budget_mode": "BUDGET_MODE_DAY", "operation_status": "ENABLE", "secondary_status": "ADGROUP_STATUS_DELIVERY_OK" },
+    { "adgroup_id": "G7", "campaign_id": "C3", "adgroup_name": "Blog Lookalike Traffic", "optimization_goal": "CLICK", "budget": 8, "budget_mode": "BUDGET_MODE_DAY", "operation_status": "ENABLE", "secondary_status": "ADGROUP_STATUS_DELIVERY_OK" },
+    { "adgroup_id": "G8", "campaign_id": "C4", "adgroup_name": "Awareness Broad", "optimization_goal": "REACH", "budget": 8, "budget_mode": "BUDGET_MODE_DAY", "operation_status": "ENABLE", "secondary_status": "ADGROUP_STATUS_DELIVERY_OK" }
+  ],
+  "ads": [
+    { "ad_id": "A1", "adgroup_id": "G1", "campaign_id": "C1", "ad_name": "Hook A - Unboxing", "operation_status": "ENABLE", "secondary_status": "AD_STATUS_DELIVERY_OK" },
+    { "ad_id": "A2", "adgroup_id": "G1", "campaign_id": "C1", "ad_name": "Hook B - Testimonial", "operation_status": "ENABLE", "secondary_status": "AD_STATUS_DELIVERY_OK" },
+    { "ad_id": "A3", "adgroup_id": "G1", "campaign_id": "C1", "ad_name": "Hook C - Founder", "operation_status": "ENABLE", "secondary_status": "AD_STATUS_DELIVERY_OK" },
+    { "ad_id": "A4", "adgroup_id": "G2", "campaign_id": "C1", "ad_name": "Single Static", "operation_status": "ENABLE", "secondary_status": "AD_STATUS_DELIVERY_OK" },
+    { "ad_id": "A5", "adgroup_id": "G3", "campaign_id": "C1", "ad_name": "Cold Generic", "operation_status": "ENABLE", "secondary_status": "AD_STATUS_DELIVERY_OK" },
+    { "ad_id": "A6", "adgroup_id": "G4", "campaign_id": "C2", "ad_name": "RT Offer 10pct", "operation_status": "ENABLE", "secondary_status": "AD_STATUS_DELIVERY_OK" },
+    { "ad_id": "A7", "adgroup_id": "G4", "campaign_id": "C2", "ad_name": "RT Social Proof", "operation_status": "ENABLE", "secondary_status": "AD_STATUS_DELIVERY_OK" },
+    { "ad_id": "A8", "adgroup_id": "G5", "campaign_id": "C2", "ad_name": "RT 30d Generic", "operation_status": "ENABLE", "secondary_status": "AD_STATUS_DELIVERY_OK" },
+    { "ad_id": "A8b", "adgroup_id": "G5", "campaign_id": "C2", "ad_name": "RT 30d Bundle", "operation_status": "ENABLE", "secondary_status": "AD_STATUS_DELIVERY_OK" },
+    { "ad_id": "A9", "adgroup_id": "G6", "campaign_id": "C3", "ad_name": "Blog Teaser", "operation_status": "ENABLE", "secondary_status": "AD_STATUS_DELIVERY_OK" },
+    { "ad_id": "A9b", "adgroup_id": "G6", "campaign_id": "C3", "ad_name": "Blog Teaser Alt", "operation_status": "ENABLE", "secondary_status": "AD_STATUS_DELIVERY_OK" },
+    { "ad_id": "A10", "adgroup_id": "G7", "campaign_id": "C3", "ad_name": "Blog LAL Teaser", "operation_status": "ENABLE", "secondary_status": "AD_STATUS_DELIVERY_OK" },
+    { "ad_id": "A10b", "adgroup_id": "G7", "campaign_id": "C3", "ad_name": "Blog LAL Teaser Alt", "operation_status": "ENABLE", "secondary_status": "AD_STATUS_DELIVERY_OK" },
+    { "ad_id": "A11", "adgroup_id": "G8", "campaign_id": "C4", "ad_name": "Brand Awareness 6s", "operation_status": "ENABLE", "secondary_status": "AD_STATUS_DELIVERY_OK" },
+    { "ad_id": "A11b", "adgroup_id": "G8", "campaign_id": "C4", "ad_name": "Brand Awareness 9s", "operation_status": "ENABLE", "secondary_status": "AD_STATUS_DELIVERY_OK" }
+  ],
+  "performance": {
+    "campaign": [
+      { "dimension_id": "C1", "impressions": 980000, "clicks": 14200, "ctr": 1.45, "cpc": 0.26, "cpm": 3.78, "spend": 3700, "conversions": 74, "conversion_rate": 0.52, "cost_per_conversion": 50.0 },
+      { "dimension_id": "C2", "impressions": 410000, "clicks": 9800, "ctr": 2.39, "cpc": 0.16, "cpm": 3.90, "spend": 1600, "conversions": 36, "conversion_rate": 0.37, "cost_per_conversion": 44.4 },
+      { "dimension_id": "C3", "impressions": 520000, "clicks": 6300, "ctr": 1.21, "cpc": 0.10, "cpm": 1.15, "spend": 600, "conversions": 0, "conversion_rate": 0 },
+      { "dimension_id": "C4", "impressions": 1200000, "clicks": 1500, "ctr": 0.13, "cpc": 0.12, "cpm": 0.15, "spend": 180, "conversions": 0, "conversion_rate": 0 }
+    ],
+    "adgroup": [
+      { "dimension_id": "G1", "impressions": 560000, "clicks": 8100, "ctr": 1.45, "cpc": 0.27, "cpm": 3.93, "spend": 2200, "conversions": 44, "conversion_rate": 0.54, "cost_per_conversion": 50.0 },
+      { "dimension_id": "G2", "impressions": 300000, "clicks": 4200, "ctr": 1.40, "cpc": 0.29, "cpm": 4.00, "spend": 1200, "conversions": 30, "conversion_rate": 0.71, "cost_per_conversion": 40.0 },
+      { "dimension_id": "G3", "impressions": 120000, "clicks": 1900, "ctr": 1.58, "cpc": 0.16, "cpm": 2.50, "spend": 300, "conversions": 0, "conversion_rate": 0, "cost_per_conversion": 0 },
+      { "dimension_id": "G4", "impressions": 180000, "clicks": 5200, "ctr": 2.89, "cpc": 0.13, "cpm": 3.89, "spend": 700, "conversions": 28, "conversion_rate": 0.54, "cost_per_conversion": 25.0 },
+      { "dimension_id": "G5", "impressions": 230000, "clicks": 4600, "ctr": 2.00, "cpc": 0.20, "cpm": 3.91, "spend": 900, "conversions": 8, "conversion_rate": 0.17, "cost_per_conversion": 112.5 },
+      { "dimension_id": "G6", "impressions": 290000, "clicks": 3600, "ctr": 1.24, "cpc": 0.10, "cpm": 1.24, "spend": 360, "conversions": 0, "conversion_rate": 0 },
+      { "dimension_id": "G7", "impressions": 230000, "clicks": 2700, "ctr": 1.17, "cpc": 0.09, "cpm": 1.04, "spend": 240, "conversions": 0, "conversion_rate": 0 },
+      { "dimension_id": "G8", "impressions": 1200000, "clicks": 1500, "ctr": 0.13, "cpc": 0.12, "cpm": 0.15, "spend": 180, "conversions": 0, "conversion_rate": 0 }
+    ],
+    "ad": [
+      { "dimension_id": "A1", "impressions": 210000, "clicks": 3200, "ctr": 1.52, "cpc": 0.25, "cpm": 3.81, "spend": 800, "conversions": 18 },
+      { "dimension_id": "A2", "impressions": 190000, "clicks": 2900, "ctr": 1.53, "cpc": 0.24, "cpm": 3.68, "spend": 700, "conversions": 17 },
+      { "dimension_id": "A3", "impressions": 175000, "clicks": 1400, "ctr": 0.80, "cpc": 0.50, "cpm": 4.00, "spend": 700, "conversions": 9 }
+    ]
+  },
+  "performance_prior": {
+    "ad": [
+      { "dimension_id": "A3", "impressions": 160000, "clicks": 2240, "ctr": 1.40, "cpm": 3.75, "spend": 600, "conversions": 16 }
+    ]
+  }
+}

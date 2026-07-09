@@ -1,0 +1,196 @@
+{
+  "meta": {
+    "skill": "paidsync-tiktok-account-audit",
+    "version": "1.0.0",
+    "generated_note": "Deterministic local analysis. No invented numbers. Read-only.",
+    "methodology": "references/methodology.md"
+  },
+  "account": {
+    "advertiser_id": "demo-001",
+    "advertiser_name": "Northwind Demo Store",
+    "currency": "USD",
+    "date_range": {
+      "start_date": "2026-06-01",
+      "end_date": "2026-06-30",
+      "days": 30
+    }
+  },
+  "totals": {
+    "total_spend": 6080,
+    "currency": "USD"
+  },
+  "health_score": 48,
+  "score_band": "at risk",
+  "spend_at_risk": {
+    "amount": 1540,
+    "currency": "USD"
+  },
+  "baselines": {
+    "conversion": {
+      "count": 4,
+      "low_confidence": false,
+      "p25": 36.25,
+      "p50": 45,
+      "p75": 65.63
+    },
+    "traffic": {
+      "count": 2,
+      "low_confidence": true,
+      "p25": 0.09,
+      "p50": 0.1,
+      "p75": 0.1
+    },
+    "video": {
+      "count": 0,
+      "low_confidence": true,
+      "p25": null,
+      "p50": null,
+      "p75": null
+    },
+    "reach": {
+      "count": 1,
+      "low_confidence": true,
+      "p25": 0.15,
+      "p50": 0.15,
+      "p75": 0.15
+    }
+  },
+  "summary_counts": {
+    "critical": 1,
+    "warning": 3,
+    "opportunity": 1,
+    "info": 2
+  },
+  "findings": [
+    {
+      "id": "WASTE_ZERO_CONVERSION_ADGROUP",
+      "category": "Wasted spend",
+      "severity": "critical",
+      "entity_type": "adgroup",
+      "entity_id": "G3",
+      "entity_name": "Cold Broad - No Cap",
+      "title": "Conversion ad group spending with zero conversions",
+      "detail": "This conversion-goal ad group has spent meaningfully with nothing to show.",
+      "evidence": {
+        "spend": 300,
+        "conversions": 0,
+        "currency": "USD",
+        "threshold": 144.55
+      },
+      "spend_at_risk": 300,
+      "recommendation": "Pause or rebuild. Re-check audience size, the selected event, and creative relevance."
+    },
+    {
+      "id": "CREATIVE_FATIGUE",
+      "category": "Creative",
+      "severity": "warning",
+      "entity_type": "ad",
+      "entity_id": "A3",
+      "entity_name": "Hook C - Founder",
+      "title": "Creative engagement decaying versus the prior period",
+      "detail": "Engagement on this ad dropped meaningfully against the previous equal-length window. The audience is tiring of it.",
+      "evidence": {
+        "metric": "ctr",
+        "now": 0.8,
+        "prior": 1.4,
+        "drop_pct": 42.86,
+        "spend": 700,
+        "currency": "USD"
+      },
+      "spend_at_risk": 700,
+      "recommendation": "Rotate in fresh creative variations and retire this one before efficiency falls further."
+    },
+    {
+      "id": "WASTE_HIGH_CPA_OUTLIER",
+      "category": "Wasted spend",
+      "severity": "warning",
+      "entity_type": "adgroup",
+      "entity_id": "G5",
+      "entity_name": "Retarget 30 day all",
+      "title": "Cost per result far worse than comparable ad groups",
+      "detail": "This ad group converts but at a cost well above your median performer in the same objective.",
+      "evidence": {
+        "cpa": 112.5,
+        "family_p50": 45,
+        "family_p75": 65.63,
+        "spend": 900,
+        "currency": "USD"
+      },
+      "spend_at_risk": 540,
+      "recommendation": "Trim budget, tighten targeting, or test creative against your median performers."
+    },
+    {
+      "id": "STRUCT_SINGLE_AD_ADGROUP",
+      "category": "Structure",
+      "severity": "warning",
+      "entity_type": "adgroup",
+      "entity_id": "G2",
+      "entity_name": "Interest Stack - Home",
+      "title": "Only one active ad in a spending ad group",
+      "detail": "A single creative leaves the system no room to optimize and fatigues faster.",
+      "evidence": {
+        "active_ads": 1,
+        "spend": 1200,
+        "currency": "USD"
+      },
+      "spend_at_risk": 0,
+      "recommendation": "Add two to three ad variations per ad group to enable creative optimization."
+    },
+    {
+      "id": "SCALE_OPPORTUNITY",
+      "category": "Opportunity",
+      "severity": "opportunity",
+      "entity_type": "adgroup",
+      "entity_id": "G4",
+      "entity_name": "Retarget 7 day viewers",
+      "title": "Top-quartile performer constrained by budget",
+      "detail": "This ad group is among your best in its objective and is spending at its budget cap.",
+      "evidence": {
+        "metric": "CPA",
+        "value": 25,
+        "family_p25": 36.25,
+        "budget": 25,
+        "utilization": 0.93,
+        "currency": "USD"
+      },
+      "spend_at_risk": 0,
+      "recommendation": "Raise budget in measured 20 to 30 percent steps to capture more volume without resetting learning."
+    },
+    {
+      "id": "PACING_UNDERDELIVERY",
+      "category": "Pacing",
+      "severity": "info",
+      "entity_type": "campaign",
+      "entity_id": "C4",
+      "entity_name": "Reach - Awareness",
+      "title": "Campaign under-delivering against its budget",
+      "detail": "This campaign spent well below its theoretical budget across the window.",
+      "evidence": {
+        "spend": 180,
+        "daily_budget": 30,
+        "days": 30,
+        "delivery_ratio": 0.2,
+        "currency": "USD"
+      },
+      "spend_at_risk": 0,
+      "recommendation": "Bids may be too low or the audience too narrow. Loosen targeting or raise the bid to unlock delivery."
+    },
+    {
+      "id": "CONCENTRATION_RISK",
+      "category": "Structure",
+      "severity": "info",
+      "entity_type": "campaign",
+      "entity_id": "C1",
+      "entity_name": "Conversions - Prospecting",
+      "title": "Account spend concentrated in a single campaign",
+      "detail": "Most of the account budget sits in one campaign, which is fragile if that audience or creative fatigues.",
+      "evidence": {
+        "spend_share": 0.61,
+        "spend": 3700,
+        "currency": "USD"
+      },
+      "spend_at_risk": 0,
+      "recommendation": "Diversify into a second proven structure so one fatiguing campaign cannot sink the account."
+    }
+  ]
+}
